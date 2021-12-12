@@ -36,5 +36,8 @@ public class SantaProfile extends AbstractPersistable<Long> {
     @JsonManagedReference
     @OneToMany(mappedBy = "santaProfile")
     private List<UserAccount> users;
+
+    @OneToMany
+    private List<Order> orders;
     
 }

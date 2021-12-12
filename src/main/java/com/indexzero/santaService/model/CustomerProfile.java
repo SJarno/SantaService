@@ -24,6 +24,9 @@ public class CustomerProfile extends AbstractPersistable<Long>{
     @JsonBackReference
     @OneToMany(mappedBy = "customerProfile")
     private List<UserAccount> users;
+
+    @OneToMany
+    private List<Order> orders;
     
 
 }
