@@ -46,7 +46,7 @@ public class CustomerController {
             model.addAttribute("usernameError", e.getMessage());
             return "customer";
         }
-        redirectAttributes.addFlashAttribute("registerSuccess", "Kirjautuminen onnistui, kirjaudu palveluun");
+        redirectAttributes.addFlashAttribute("registerSuccess", "Rekisteröinti onnistui, kirjaudu palveluun");
         return "redirect:/login-page";
     }
 

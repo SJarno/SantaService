@@ -4,37 +4,67 @@
 <head th:replace="fragments/head :: head_fragment('santa-profile')">
 </head>
 
-<body sec:authorize="hasAuthority('ROLE_CUSTOMER')">
+<body sec:authorize="hasAuthority('ROLE_CUSTOMER')" onload="loadSantas('santas/available')">
     <nav th:replace="fragments/navigation :: main-nav-fragment"></nav>
     <main class="customer-profile-main" id="customer-main-image">
         <section class="customer-profile-header">
             <h1>Asiakasprofiilisivu</h1>
             <h2>Nimi: <span th:text="${#authentication.getPrincipal().getUsername()}"></span></h2>
+            <!-- Displaying error/success -->
+            <div th:if="${basicInfoUpdated}" class="alert alert-success"><span>
+                <p th:text="${basicInfoUpdated}"></p>
+            </span>
+            <button type="button" class="btn-close" onclick="closeElement()">X</button>
+        </div>
+        <div th:if="${basicInfoNotUpdated}" class="alert alert-error"><span>
+                <p th:text="${basicInfoNotUpdated}"></p>
+            </span>
+            <button type="button" class="btn-close" onclick="closeElement()">X</button>
+        </div>
         </section>
         <!-- Tab: -->
         <section class="tab">
-			<button class="tabLinks" onclick="openTab(event, 'tab-basic-info')">
-				<p>Perustiedot</p>
-			</button>
-			<button class="tabLinks" onclick="openTab(event, 'tab-customer-info')">
-				<p>Profiilitiedot</p>
-			</button>
-			<button class="tabLinks" onclick="openTab(event, 'tab-available-santas')">
-				<p>Vapaat pukit</p>
-			</button>
-		</section>
+            <button class="tabLinks" onclick="openTab(event, 'tab-basic-info')">
+                <p>Perustiedot</p>
+            </button>
+            <button class="tabLinks" onclick="openTab(event, 'tab-customer-info')">
+                <p>Profiilitiedot</p>
+            </button>
+            <button class="tabLinks" onclick="openTab(event, 'tab-available-santas')">
+                <p>Vapaat pukit</p>
+            </button>
+        </section>
         <!-- Tab content: -->
         <section>
             <article id="tab-basic-info" class="tabContent">
-                <h1>Account info</h1>
+                <!-- <h1>Account info</h1> -->
+                <div class="basicInfo">
+                    <h2 class="profile-h2">Perustiedot</h2>
+                    <h3>Käyttäjätunnus: <span th:text="${basicInfo.username}"></span></h3>
+                    <h3>Etunimi: <span th:text="${basicInfo.firstName}"></span></h3>
+                    <h3>Sukunimi: <span th:text="${basicInfo.lastName}"></span></h3>
+                    <h3>Sähköposti: <span th:text="${basicInfo.email}"></span></h3>
+                    <h3>Puhelinnumero: <span th:text="${basicInfo.phoneNumber}"></span></h3>
+                    <h3>Postinumero: <span th:text="${basicInfo.postalCode}"></span></h3>
+                </div>
+                <div class="basicInfo">
+					<form th:replace="fragments/forms :: update-basicInfo-form"></form>
+				</div>
+				<div class="basicInfo">
+					<form th:replace="fragments/forms :: updateUsername-form"></form>
+				</div>
+				<div class="basicInfo">
+					<form th:replace="fragments/forms :: deleteUser-form(title='Poista asiakastili')"></form>
+				</div>
             </article>
             <article id="tab-customer-info" class="tabContent">
                 <h1>Profiilitiedot</h1>
             </article>
             <article id="tab-available-santas" class="tabContent">
-                <h1>Vapaat pukit</h1>
-                <div>
-                    
+                <div class="titleForAvailableSantas">
+                    <h1>Vapaat pukit</h1>
+                </div>
+                <div class="available-santas-container" id="santa-cards">
                 </div>
             </article>
         </section>

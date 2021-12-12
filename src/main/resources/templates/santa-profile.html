@@ -40,7 +40,7 @@
 			<!-- Output for basic info -->
 			<article id="tab-basic-info" class="tabContent">
 				<div class="basicInfo">
-					<h2 class="santa-profile-h2">Perustiedot</h2>
+					<h2 class="profile-h2">Perustiedot</h2>
 					<h3>Käyttäjätunnus: <span th:text="${basicInfo.username}"></span></h3>
 					<h3>Etunimi: <span th:text="${basicInfo.firstName}"></span></h3>
 					<h3>Sukunimi: <span th:text="${basicInfo.lastName}"></span></h3>
@@ -50,126 +50,18 @@
 				</div>
 
 				<div class="basicInfo">
-					<!-- Form for update basic account info -->
-					<form th:action="@{/update/account-basic}" method="post">
-						<table>
-							<thead>
-								<tr>
-									<th colspan="2">
-										<h2 class="santa-profile-h2">Päivitä tietoja</h2>
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><label for="firstName">Etunimi: </label></td>
-									<td><input type="text" th:name="firstName" th:value="${basicInfo.firstName}">
-									</td>
-								</tr>
-								<tr>
-									<td><label for="lastName">Sukunimi: </label></td>
-									<td><input type="text" th:name="lastName" th:value="${basicInfo.lastName}"></td>
-								</tr>
-								<tr>
-									<td><label for="email">Sähköposti: </label></td>
-									<td><input type="text" th:name="email" th:value="${basicInfo.email}"></td>
-								</tr>
-								<tr>
-									<td><label for="phonenumber">Puhelinnumero: </label></td>
-									<td><input type="text" th:name="phonenumber" th:value="${basicInfo.phoneNumber}">
-									</td>
-								</tr>
-								<tr>
-									<td><label for="postalCode">Postinumero: </label></td>
-									<td><input type="text" th:name="postalCode" th:value="${basicInfo.postalCode}">
-									</td>
-								</tr>
-								<tr>
-									<th>
-										<hr>
-									</th>
-								</tr>
-								<tr>
-									<td><label for="password">Syötä salasana: </label></td>
-									<td><input type="password" th:name="password"></td>
-								</tr>
-							</tbody>
-							<tfoot>
-								<tr>
-									<td><input class="santa-button" type="submit" value="Päivitä"></td>
-								</tr>
-							</tfoot>
-						</table>
-					</form>
+					<form th:replace="fragments/forms :: update-basicInfo-form"></form>
 				</div>
 				<div class="basicInfo">
-					<form th:action="@{/update/account-username}" method="post">
-						<table>
-							<thead>
-								<tr>
-									<th colspan="2">
-										<h2 class="santa-profile-h2">Vaihda käyttäjätunnus</h2>
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><label for="username">Käyttäjätunnus: </label></td>
-									<td><input type="text" th:name="username" th:value="${basicInfo.username}"></td>
-								</tr>
-								<tr>
-									<th>
-										<hr>
-									</th>
-								</tr>
-								<tr>
-									<td><label for="password">Syötä salasana: </label></td>
-									<td><input type="password" th:name="password"></td>
-								</tr>
-							</tbody>
-							<tfoot>
-								<tr>
-									<td><input class="santa-button" type="submit" value="Tallenna"></td>
-								</tr>
-							</tfoot>
-						</table>
-					</form>
+					<form th:replace="fragments/forms :: updateUsername-form"></form>
 				</div>
 				<div class="basicInfo">
-					<form th:action="@{/delete-user}" method="post">
-						<table>
-							<thead>
-								<tr>
-									<th colspan="2">
-										<h2 class="santa-profile-h2">Poista Joulupukki-tili</h2>
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<th colspan="2">
-										<p>Varoitus! Tilisi poistetaan täältä</p>
-									</th>
-								</tr>
-								<tr>
-									<td><label for="password">Syötä salasana: </label></td>
-									<td><input type="password" th:name="password"></td>
-								</tr>
-							</tbody>
-							<tfoot>
-								<tfoot>
-									<tr>
-										<td><input class="santa-button" type="submit" value="Poista tili"></td>
-									</tr>
-								</tfoot>
-							</tfoot>
-						</table>
-					</form>
+					<form th:replace="fragments/forms :: deleteUser-form(title='Poista Joulupukki-tili')"></form>
 				</div>
 			</article>
 			<article id="tab-santa-info" class="tabContent">
 				<div class="santa-profile-info">
-					<h2 class="santa-profile-h2">Joulupukki-profiilin tiedot</h2>
+					<h2 class="profile-h2">Joulupukki-profiilin tiedot</h2>
 					<h3>Profiilinimi: <span th:text="${profileInfo.santaProfileName}"></span></h3>
 					<h3>Lisätiedot: <p th:text="${profileInfo.info}"></p>
 					</h3>

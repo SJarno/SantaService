@@ -13,5 +13,10 @@
 .customer-profile-main {
     width: 100%;
     min-height: 60rem;
-    
+
+}
+
+.titleForAvailableSantas {
+    text-align: center;
+    width: 100%;
 }
