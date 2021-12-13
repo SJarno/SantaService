@@ -41,12 +41,19 @@ const addToElement = data => {
         
         imageElement.src = "/santa/image/"+santa.id;
         figureElement.appendChild(imageElement);
+
+        const testButton = document.createElement("button");
+        testButton.textContent = "Paina";
+        testButton.click = function() {
+            console.log("painettu");
+        }
         
         
         divElement.appendChild(figureElement);
         divElement.appendChild(headerElement);
         divElement.appendChild(infoPara);
         divElement.appendChild(pricePara);
+        divElement.appendChild(testButton);
 
         document.getElementById("santa-cards").appendChild(divElement);
         
