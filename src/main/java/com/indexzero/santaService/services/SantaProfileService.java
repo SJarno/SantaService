@@ -36,6 +36,7 @@ public class SantaProfileService {
     /* Get available santas: */
     public List<SantaProfile> getAvailableSantas() {
         return santaProfileRepository.customFindAllAvailableSantas();
+        /* return convertDataFromList(santaProfileRepository.customFindAllAvailableSantas()); */
     }
 
     /* Availabel santas by postalcode */
@@ -83,9 +84,10 @@ public class SantaProfileService {
                 .map(santa -> {
                     SantaProfile santaProfile = new SantaProfile();
                     santaProfile.setSantaProfileName(santa.getSantaProfileName());
-                    santaProfile.setProfileImage(santa.getProfileImage());
+                    //santaProfile.setProfileImage(santa.getProfileImage());
                     santaProfile.setInfo(santa.getInfo());
                     santaProfile.setPrice(santa.getPrice());
+                    santaProfile.setAvailable(santa.isAvailable());
                     return santaProfile;
                 }).collect(Collectors.toList());
     }
