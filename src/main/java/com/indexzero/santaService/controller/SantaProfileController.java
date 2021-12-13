@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 //@RequestMapping("/santa")
 @Controller
@@ -78,7 +79,8 @@ public class SantaProfileController {
             @RequestParam String profilename,
             @RequestParam String info,
             @RequestParam int price,
-            @RequestParam int available) throws IOException{
+            @RequestParam int available,
+            RedirectAttributes redirectAttributes) throws IOException{
         /* get useraccount */
         Optional<UserAccount> userAccount = userAccountService
                 .findUserAccountByUsername(getAuthenticatedUser().getName());
@@ -101,13 +103,25 @@ public class SantaProfileController {
         santaProfileService.updateSantaProfileInfo(
                 userAccount.get(), existingSantaProfile, updatedSantaProfile);
 
-        return "redirect:/success";
+        redirectAttributes.addFlashAttribute("basicInfoUpdated", "Päivitetty");
+        //redirectAttributes.addFlashAttribute("basicInfoNotUpdated", "Ei päivitetty");
+        return redirectByUserRole();
     }
 
     /*  */
     private Authentication getAuthenticatedUser() {
         return SecurityContextHolder.getContext().getAuthentication();
 
+    }
+    private String redirectByUserRole() {
+        Optional<UserAccount> userAccount = userAccountService
+                .findUserAccountByUsername(getAuthenticatedUser().getName());
+        if (userAccount.isPresent()) {
+            String userRole = userAccount.get().getUserRole();
+            return userRole.equals("ROLE_SANTA") ? "redirect:/santa-profile"
+                    : userRole.equals("ROLE_CUSTOMER") ? "redirect:/customer-profile" : "redirect:/";
+        }
+        return "redirect:/custom-logout";
     }
 
 }

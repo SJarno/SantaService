@@ -6,7 +6,7 @@
 
 <body class="main-content">
 	<header th:replace="fragments/header :: header-fragment">
-    </header>
+	</header>
 	<main>
 		<h1 class="otsikko"><span>&#10024;</span>Ho Ho Ho! Joulupukki hukassa?<span>&#127879;</span></h1>
 		<section class="content">
@@ -25,16 +25,9 @@
 	</main>
 	<footer th:replace="fragments/footer :: footer-fragment">
 	</footer>
-	<!-- <script type="text/javascript">
-        var blink = 
-            document.getElementsByClassName("testBlink")[0];
-  
-        setInterval(function () {
-            blink.style.opacity = 
-            (blink.style.opacity == 0 ? 1 : 0);
-        }, 1000); 
-    </script> -->
+	<!-- Tähän haetaan kannasta, js hoitaa elementin muodostamisen -->
+	<section id="santa-cards">
+	</section>
 </body>
 
 </html>
-

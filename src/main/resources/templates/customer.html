@@ -27,15 +27,8 @@
         </div>
         <section class="customer-page-form">
             <p></p>
-            <div th:replace="fragments/forms :: register-account(heading='Rekisteröidy perheeksi', type='customer')">
+            <div th:replace="fragments/forms :: register-account(heading='Rekisteröidy tilaajaksi', type='customer')">
             </div>
-        </section>
-        <section class="cards">
-
-        </section>
-        <!-- Tähän haetaan kannasta, js hoitaa elementin muodostamisen -->
-        <section id="santa-cards">
-
         </section>
     </main>
     <footer th:replace="fragments/footer :: footer-fragment">

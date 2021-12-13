@@ -1,5 +1,5 @@
 .blinkingStar {
-    font-size: 2rem;
+    /* font-size: 2rem; */
     color: rgb(129, 123, 123);
     position: relative;
     animation-duration: 2s;
@@ -9,7 +9,7 @@
 
 #star-one {
     color: rgba(146, 109, 109, 0.1);
-    font-size: 0.6rem;
+    font-size: 1.5rem;
     top: 3rem;
     left: 90%;
     animation-duration: 2s;
@@ -18,7 +18,7 @@
 
 #star-two {
     color: rgba(248, 242, 242, 0.9);
-    font-size: 1rem;
+    font-size: 1.8rem;
     top: 5rem;
     left: 30%;
     animation-duration: 2s;
@@ -27,7 +27,7 @@
 
 #star-three {
     color: rgba(100, 137, 146, 0.5);
-    font-size: 0.7rem;
+    font-size: 1.6rem;
     top: 7rem;
     left: 7%;
     animation-duration: 2s;
