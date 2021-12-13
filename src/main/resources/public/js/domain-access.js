@@ -44,10 +44,9 @@ const addToElement = data => {
 
         const testButton = document.createElement("button");
         testButton.textContent = "Paina";
-        testButton.click = function() {
-            console.log("painettu");
-        }
-        
+        testButton.onclick = function() {
+            sendOffer();
+        };
         
         divElement.appendChild(figureElement);
         divElement.appendChild(headerElement);
@@ -70,3 +69,7 @@ async function loadTest() {
     let santas = await response.json();
     console.log(santas);
 };
+
+async function sendOffer() {
+    console.log("painettu!");
+}
