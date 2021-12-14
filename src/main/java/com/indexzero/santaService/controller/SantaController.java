@@ -49,7 +49,7 @@ public class SantaController {
             model.addAttribute("usernameError", e.getMessage());
             return "santa-claus";
         }
-        redirectAttributes.addFlashAttribute("registerSuccess", "Kirjautuminen onnistui, kirjaudu palveluun");
+        redirectAttributes.addFlashAttribute("registerSuccess", "Rekisteröinti onnistui, kirjaudu palveluun");
         return "redirect:/login-page";
     }
 
