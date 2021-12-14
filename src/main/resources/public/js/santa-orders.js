@@ -1,36 +1,19 @@
-
-/* Create new order: */
-async function sendOffer(id) {
-    /* console.log("painettu! id on:" + id);
-    console.log(url + "customer/" + id + "/create-order"); */
-    let response = await fetch(url + "customer/" + id + "/create-order", {
-        headers: {
-            "Accept": "application/json"
-        },
-        method: "post"
-    });
-    let data = await response.json();
-    console.log(data);
-}
 /* Get orders */
 async function loadOrders() {
-    /*  */
-    
-    console.log(url + "customer/orders");
-    let response = await fetch(url + "customer/orders", {
+    console.log(url + "santa/orders");
+    let response = await fetch(url + "santa/orders", {
         headers: {
             "Accept": "application/json"
         }
     });
-    let santas = await response.json();
-    addOrdersToPage(santas);
+    let orders = await response.json();
+    addOrdersToElement(orders);
+    console.log(orders);
 };
 
-async function addOrdersToPage(data) {
+async function addOrdersToElement(data) {
     removeLinkElements("order-cards");
     data.forEach(order => {
-        /* Clear elements */
-        /* Create holder for order card */
         const divElement = document.createElement("div");
         divElement.id = order.id;
         divElement.className = "card-order";
@@ -38,12 +21,23 @@ async function addOrdersToPage(data) {
         header.innerText = "Tilausnumero: " + order.id;
 
         const paraStatus = document.createElement("p");
+        paraStatus.id = "order-status-"+order.id;
         if (order.status === "PENDING") {
-            paraStatus.textContent = "Status: Lähetetty";
+            paraStatus.textContent = "Status: Odottaa hyväksyntää sinulta";
+            const acceptButton = document.createElement("button");
+            acceptButton.id = "accept-btn-"+order.id;
+            acceptButton.innerText = "Hyväksy";
+            acceptButton.onclick = function () {
+                acceptBySanta(order.id, "ACCEPTED");
+            }
+            divElement.appendChild(acceptButton);
+        }
+        if (order.status === "ACCEPTED") {
+            paraStatus.textContent = "Status: Hyväksytty";
         }
         /* Add santa info */
         const paraSantaname = document.createElement("p");
-
+        paraSantaname.innerText = "Santa profile name: "+order.santaProfile.profileName;
 
         console.log(order.santaProfile);
 
@@ -60,21 +54,38 @@ async function addOrdersToPage(data) {
 
         document.getElementById("order-cards").appendChild(divElement);
     });
+
+
+};
+
+async function acceptBySanta(id, status) {
+    console.log(url+"santa/orders/update/"+id+"/"+status);
+    const response = await fetch(url+"santa/orders/update/"+id+"/"+status, {
+        headers: {
+            "Accept": "application/json"
+        },
+        method: "put"
+    });
+    const data = await response.json();
+    const updateElement = document.getElementById("order-status-"+data.id);
+    updateElement.innerText = "Status: Hyväksytty";
+    const acceptBtn = document.getElementById("accept-btn-"+data.id);
+    acceptBtn.remove();
+    console.log(data);
 }
 
-/* Delete order */
 async function deleteOrder(orderId) {
     console.log(url+"orders/"+orderId+"/delete");
     const response = await fetch(url+"orders/"+orderId+"/delete", {
         headers: {
             "Accept": "application/json"
         },
-        method: "post"
+        method: "delete"
     });
     const data = await response.json();
     document.getElementById(data.id).remove();
     window.alert("Tilaus peruttu")
-    console.log(data);
+    
     
 }
 

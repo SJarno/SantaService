@@ -35,7 +35,7 @@ public class Order extends AbstractPersistable<Long>{
     @ManyToOne
     private SantaProfile santaProfile;
     
-    //@JsonBackReference //ei palauta asiakasprofiilia atm
+    @JsonBackReference //ei palauta asiakasprofiilia atm
     @ManyToOne
     private CustomerProfile customerProfile;
 }

@@ -4,8 +4,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
+import com.indexzero.santaService.model.Order;
+import com.indexzero.santaService.model.OrderStatus;
 import com.indexzero.santaService.model.SantaProfile;
 import com.indexzero.santaService.model.UserAccount;
+import com.indexzero.santaService.services.OrderService;
 import com.indexzero.santaService.services.SantaProfileService;
 import com.indexzero.santaService.services.UserAccountService;
 
@@ -17,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -33,6 +37,9 @@ public class SantaProfileController {
 
     @Autowired
     private UserAccountService userAccountService;
+
+    @Autowired
+    private OrderService orderService;
 
     /* Show actual profile page with contextual content per user: */
     // @Secured("ROLE_SANTA")
@@ -70,6 +77,21 @@ public class SantaProfileController {
     @RequestMapping(value = "santas/available", method = RequestMethod.GET, produces = "application/json")
     public List<SantaProfile> getAllAvailableSantas() {
         return santaProfileService.getAvailableSantas();
+    }
+    /* get orders */
+    @ResponseBody
+    @GetMapping("/santa/orders")
+    public List<Order> getSantaOrders() {
+        return orderService.getOrdersBySantaprofile();
+    }
+    /* Update orders */
+    @ResponseBody
+    @PutMapping("/santa/orders/update/{id}/{status}")
+    public Order updateOrderStatus(@PathVariable Long id, @PathVariable OrderStatus status) {
+        System.out.println();
+        System.out.println(status);
+        System.out.println();
+        return orderService.updateStatus(id, status);
     }
 
     /* update santa profile */

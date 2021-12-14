@@ -31,7 +31,7 @@
 			<button class="tabLinks" onclick="openTab(event, 'tab-santa-info')">
 				<p>Profiilitiedot</p>
 			</button>
-			<button class="tabLinks" onclick="openTab(event, 'tab-jobs-info')">
+			<button class="tabLinks" onclick="openTab(event, 'tab-jobs-info'), loadOrders()">
 				<p>Työtarjoukset</p>
 			</button>
 		</section>
@@ -129,12 +129,15 @@
 				</div>
 			</article>
 			<article id="tab-jobs-info" class="tabContent">
-				<h1>Työtarjoukset</h1>
-				<div></div>
-				<div></div>
+				<div class="titleForOrders">
+					<h1>Työtarjoukset</h1>
+				</div>
+				<div class="orders-container" id="order-cards">
+                </div>
 			</article>
 		</section>
 	</main>
+	<script th:src="@{/js/santa-orders.js}" defer async></script>
 	<footer th:replace="fragments/footer :: footer-fragment">
 	</footer>
 </body>

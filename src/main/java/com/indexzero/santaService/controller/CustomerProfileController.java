@@ -53,9 +53,7 @@ public class CustomerProfileController {
     @ResponseBody
     @PostMapping("/customer/{id}/create-order")
     public Order createOrder(@PathVariable Long id) {
-        System.out.println();
-        System.out.println("Tuli tänne juu");
-        System.out.println();
+        
         return orderService.createOrder(id);
     }
     /* Get orders made by customer: */
@@ -63,17 +61,12 @@ public class CustomerProfileController {
     @GetMapping("/customer/orders")
     public List<Order> getAllOrdersAndSantaprofiles() {
 
-        return orderService.getOrders();
+        return orderService.getOrdersByCustomerProfile();
     }
     /* Delete order */
     @ResponseBody
-    @PostMapping("/orders/{id}/delete")
+    @DeleteMapping("/orders/{id}/delete")
     public Order deleteOrderById(@PathVariable Long id) {
-        System.out.println();
-        System.out.println("Tuli tänne");
-        System.out.println(id);
-        System.out.println();
-        
         return orderService.deleteOrder(id);
     }
 

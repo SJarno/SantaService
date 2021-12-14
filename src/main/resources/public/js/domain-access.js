@@ -65,19 +65,6 @@ const addToElement = data => {
         
     });
 };
-/* Create new order: */
-/* async function sendOffer(id) {
-    console.log("painettu! id on:"+id);
-    console.log(url+"customer/"+id+"/create-order");
-    let response = await fetch(url+"customer/"+id+"/create-order", {
-        headers: {
-            "Accept": "application/json"
-        },
-        method: "post"
-    });
-    let data = await response.json();
-    console.log(data);
-} */
 
 async function loadTest() {
     console.log(url+"customer/orders");
