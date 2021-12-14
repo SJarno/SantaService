@@ -3,15 +3,19 @@ package com.indexzero.santaService.model;
 import java.util.List;
 
 import javax.persistence.Basic;
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import lombok.AllArgsConstructor;
@@ -34,12 +38,14 @@ public class SantaProfile extends AbstractPersistable<Long> {
     @Column(name = "profile_image")
     private byte[] profileImage;
 
-    //@JsonManagedReference
-    @JsonIgnore
-    @OneToMany(mappedBy = "santaProfile")
+    //@JsonIgnore
+    @JsonManagedReference
+    @OneToMany(mappedBy = "santaProfile", cascade = CascadeType.ALL)
     private List<UserAccount> users;
 
-    @OneToMany
+    @JsonBackReference
+    @OneToMany(mappedBy = "santaProfile", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Order> orders;
     
 }

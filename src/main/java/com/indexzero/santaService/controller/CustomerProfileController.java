@@ -1,11 +1,15 @@
 package com.indexzero.santaService.controller;
 
+import java.util.List;
 import java.util.Optional;
 
 import com.indexzero.santaService.model.CustomerProfile;
+import com.indexzero.santaService.model.Order;
 import com.indexzero.santaService.model.UserAccount;
 import com.indexzero.santaService.repositories.CustomerProfileRepository;
+import com.indexzero.santaService.repositories.OrderRepository;
 import com.indexzero.santaService.services.CustomerProfileService;
+import com.indexzero.santaService.services.OrderService;
 import com.indexzero.santaService.services.UserAccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,13 +17,20 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 public class CustomerProfileController {
 
     @Autowired
     private UserAccountService userAccountService;
+
+    @Autowired
+    private OrderService orderService;
 
     // @Secured("ROLE_CUSTOMER")
     @GetMapping("/customer-profile")
@@ -37,6 +48,33 @@ public class CustomerProfileController {
         }
 
         return "redirect:login-page";
+    }
+    /* Create new order */
+    @ResponseBody
+    @PostMapping("/customer/{id}/create-order")
+    public Order createOrder(@PathVariable Long id) {
+        System.out.println();
+        System.out.println("Tuli tänne juu");
+        System.out.println();
+        return orderService.createOrder(id);
+    }
+    /* Get orders made by customer: */
+    @ResponseBody
+    @GetMapping("/customer/orders")
+    public List<Order> getAllOrdersAndSantaprofiles() {
+
+        return orderService.getOrders();
+    }
+    /* Delete order */
+    @ResponseBody
+    @PostMapping("/orders/{id}/delete")
+    public Order deleteOrderById(@PathVariable Long id) {
+        System.out.println();
+        System.out.println("Tuli tänne");
+        System.out.println(id);
+        System.out.println();
+        
+        return orderService.deleteOrder(id);
     }
 
 }

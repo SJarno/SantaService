@@ -12,4 +12,5 @@ function openTab(event, elementId) {
       }
     document.getElementById(elementId).style.display = "flex";
     event.currentTarget.className += " active";
+    
 }

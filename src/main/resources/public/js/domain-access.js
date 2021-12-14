@@ -1,6 +1,7 @@
 let url = contextRoot;
 
 async function loadSantas(path) {
+    /* document.getElementById("santa-cards").remove(); */
     console.log(url+path);
     let response = await fetch(url+path, {
         headers: {
@@ -8,6 +9,7 @@ async function loadSantas(path) {
         }
     });
     let santas = await response.json();
+    console.log(santas);
     addToElement(santas);
 };
 
@@ -22,10 +24,14 @@ async function loadImageById(id) {
 };
 
 const addToElement = data => {
+    removeLinkElements("santa-cards");
     data.forEach(santa => {
         console.log(santa);
+        
         const divElement = document.createElement("div");
-        divElement.id = "card";
+        divElement.className = "santa-card";
+        divElement.id = santa.id;
+
         const headerElement = document.createElement("h3");
         headerElement.innerText = santa.santaProfileName;//hakee santa-profilen kautta profiilin nimen
         const infoPara = document.createElement("p");
@@ -35,7 +41,7 @@ const addToElement = data => {
         pricePara.innerText = "Hinta: "+santa.price;
 
         const figureElement = document.createElement("figure");
-        figureElement.id = "card-figure";
+        figureElement.className = "santa-card-figure";
         const imageElement = document.createElement("img");
         console.log("/santa/image/"+santa.id);
         
@@ -44,8 +50,9 @@ const addToElement = data => {
 
         const testButton = document.createElement("button");
         testButton.textContent = "Paina";
+        /* console.log("Tilaukset: "+santa.orders); */
         testButton.onclick = function() {
-            sendOffer();
+            sendOffer(santa.id);
         };
         
         divElement.appendChild(figureElement);
@@ -58,10 +65,23 @@ const addToElement = data => {
         
     });
 };
+/* Create new order: */
+/* async function sendOffer(id) {
+    console.log("painettu! id on:"+id);
+    console.log(url+"customer/"+id+"/create-order");
+    let response = await fetch(url+"customer/"+id+"/create-order", {
+        headers: {
+            "Accept": "application/json"
+        },
+        method: "post"
+    });
+    let data = await response.json();
+    console.log(data);
+} */
 
 async function loadTest() {
-    /* console.log(url+"testi"); */
-    let response = await fetch(url+"santas/available", {
+    console.log(url+"customer/orders");
+    let response = await fetch(url+"customer/orders", {
         headers: {
             "Accept":"application/json"
         }
@@ -70,6 +90,3 @@ async function loadTest() {
     console.log(santas);
 };
 
-async function sendOffer() {
-    console.log("painettu!");
-}

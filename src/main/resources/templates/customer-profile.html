@@ -4,7 +4,7 @@
 <head th:replace="fragments/head :: head_fragment('santa-profile')">
 </head>
 
-<body sec:authorize="hasAuthority('ROLE_CUSTOMER')" onload="loadSantas('santas/available')">
+<body sec:authorize="hasAuthority('ROLE_CUSTOMER')">
     <nav th:replace="fragments/navigation :: main-nav-fragment"></nav>
     <main class="customer-profile-main" id="customer-main-image">
         <section class="customer-profile-header">
@@ -30,8 +30,11 @@
             <button class="tabLinks" onclick="openTab(event, 'tab-customer-info')">
                 <p>Profiilitiedot</p>
             </button>
-            <button class="tabLinks" onclick="openTab(event, 'tab-available-santas')">
+            <button class="tabLinks" onclick="openTab(event, 'tab-available-santas'), loadSantas('santas/available')">
                 <p>Vapaat pukit</p>
+            </button>
+            <button class="tabLinks" onclick="openTab(event, 'tab-orders'), loadOrders()">
+                <p>Tilaukset</p>
             </button>
         </section>
         <!-- Tab content: -->
@@ -67,12 +70,20 @@
                 <div class="available-santas-container" id="santa-cards">
                 </div>
             </article>
+            <article id="tab-orders" class="tabContent">
+                <div class="titleForAvailableSantas">
+                    <h1>Tilaukset</h1>
+                </div>
+                <div class="orders-container" id="order-cards">
+                </div>
+            </article>
         </section>
 
 
     </main>
     <footer th:replace="fragments/footer :: footer-fragment">
     </footer>
+    <script th:src="@{/js/orders.js}" defer async></script>
 </body>
 
 </html>

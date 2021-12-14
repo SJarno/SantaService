@@ -1,0 +1,19 @@
+#order-cards {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#order-cards *> {
+    flex-basis: 20%;
+}
+
+.card-order {
+    background-color: #661313;
+    padding: 1rem;
+    width: 24rem;
+    margin: 1.5rem;
+    border: solid rgb(217 183 142) 0.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 4px 8px 0 rgb(199 178 22 / 20%), 0 6px 20px 0 rgb(110 109 57 / 20%);
+}

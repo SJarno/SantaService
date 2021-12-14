@@ -1,5 +1,6 @@
 package com.indexzero.santaService.services;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -7,6 +8,7 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import com.indexzero.santaService.model.CustomerProfile;
+import com.indexzero.santaService.model.Order;
 import com.indexzero.santaService.model.SantaProfile;
 import com.indexzero.santaService.model.UserAccount;
 import com.indexzero.santaService.repositories.CustomerProfileRepository;
@@ -140,14 +142,16 @@ public class UserAccountService {
     /* Delete useraccount and attachded profile */
     @Transactional
     public boolean deleteAccount(UserAccount userAccount) throws NullPointerException {
-        userAccountRepository.delete(userAccount);
+        /* userAccountRepository.delete(userAccount); */
+        userAccountRepository.deleteById(userAccount.getId());
         /* If account has certain role */
         if (userAccount.getUserRole().equals("ROLE_SANTA")) {
             Optional<SantaProfile> santaProfileToDelete = santaProfileService
                     .getProfileByid(userAccount
                             .getSantaProfile().getId());
             if (santaProfileToDelete.isPresent()) {
-                santaProfileService.deleteSantaprofile(santaProfileToDelete.get());
+                santaProfileService.deleteSantaprofile(santaProfileToDelete.get().getId());
+                
             }
 
         }
@@ -163,6 +167,7 @@ public class UserAccountService {
 
         return true;
     }
+
 
     private boolean usernameExists(String username) {
         return userAccountRepository.findByUsername(username).isPresent();

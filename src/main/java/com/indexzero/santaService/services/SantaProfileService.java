@@ -11,6 +11,8 @@ import com.indexzero.santaService.model.UserAccount;
 import com.indexzero.santaService.repositories.SantaProfileRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -18,6 +20,9 @@ public class SantaProfileService {
 
     @Autowired
     private SantaProfileRepository santaProfileRepository;
+
+    @Autowired
+    private UserAccountService userAccountService;
 
 
     @Transactional
@@ -37,6 +42,9 @@ public class SantaProfileService {
     public List<SantaProfile> getAvailableSantas() {
         return santaProfileRepository.customFindAllAvailableSantas();
         /* return convertDataFromList(santaProfileRepository.customFindAllAvailableSantas()); */
+        /* UserAccount userAccount = userAccountService.findUserAccountByUsername(getAuthenticatedUser().getName()).get();
+        Long customerId = userAccount.getCustomerProfile().getId();
+        return santaProfileRepository.customFindAllAvailableSantasWhereCustomerNotApplied(customerId); */
     }
 
     /* Availabel santas by postalcode */
@@ -74,8 +82,8 @@ public class SantaProfileService {
     }
 
     /* Delete Santaprofile */
-    public void deleteSantaprofile(SantaProfile santaprofile) {
-        santaProfileRepository.delete(santaprofile);
+    public void deleteSantaprofile(Long id) {
+        santaProfileRepository.deleteById(id);
     }
 
     /* converts data only needed info */
@@ -96,6 +104,10 @@ public class SantaProfileService {
         return list.stream()
                 .filter(santa -> santa.isAvailable())
                 .collect(Collectors.toList());
+    }
+    private Authentication getAuthenticatedUser() {
+        return SecurityContextHolder.getContext().getAuthentication();
+
     }
 
 }
