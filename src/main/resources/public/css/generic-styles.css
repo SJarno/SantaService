@@ -193,6 +193,25 @@ footer {
     top: 20%;
     left: 41.5%;
     z-index: 5;
+    animation-duration: 4s;
+    animation-name: alertOpacity;
+    display: inline-block;
+    opacity: 0;
+}
+
+@keyframes alertOpacity {
+    0% {
+        opacity: 1;
+    }
+    25% {
+        opacity: 0.9;
+    }
+    50% {
+        opacity: 0.7;
+    }
+    100% {
+        opacity: 0;
+    }
 }
 
 .alert-success {
@@ -205,7 +224,7 @@ footer {
     text-align: center;
     padding: 2rem;
     background-color: rgba(211, 27, 27, 0.5);
-    display: inline-block;
+    
 }
 
 .btn-close {
@@ -218,7 +237,7 @@ footer {
     text-align: center;
     padding: 2rem;
     background-color: rgba(85, 136, 42, 0.7);
-    display: inline-block;
+    
 }
 
 /* Tabletti - ipad */
@@ -226,6 +245,7 @@ footer {
     .main-image {
         height: 40rem;
     }
+
     .topNav #navLinks {
         display: flex;
 
