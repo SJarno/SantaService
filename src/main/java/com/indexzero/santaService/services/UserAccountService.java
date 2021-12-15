@@ -1,6 +1,5 @@
 package com.indexzero.santaService.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -8,7 +7,6 @@ import java.util.stream.Collectors;
 import javax.transaction.Transactional;
 
 import com.indexzero.santaService.model.CustomerProfile;
-import com.indexzero.santaService.model.Order;
 import com.indexzero.santaService.model.SantaProfile;
 import com.indexzero.santaService.model.UserAccount;
 import com.indexzero.santaService.repositories.CustomerProfileRepository;
@@ -21,10 +19,6 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserAccountService {
 
-    /*
-     * @Autowired
-     * private SantaProfileRepository santaProfileRepository;
-     */
     @Autowired
     private SantaProfileService santaProfileService;
 
@@ -37,7 +31,7 @@ public class UserAccountService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /* Create */
+    /* Create account with santa profile*/
     @Transactional
     public void createSantaAccount(UserAccount santaAccount) throws Exception {
         /* Check if username exists */
@@ -50,13 +44,16 @@ public class UserAccountService {
         santaAccount.setPassword(passwordEncoder.encode(santaAccount.getPassword()));
         santaAccount.setUserRole("ROLE_SANTA");
         SantaProfile santaProfile = new SantaProfile();
+        santaProfile.setAvailable(true);
+        santaProfile.setContactEmail(santaAccount.getEmail());
+        santaProfile.setSantaProfileName(santaAccount.getFirstName()+" Pukki");
         santaAccount.setSantaProfile(santaProfile);
 
         santaProfileService.saveSantaProfile(santaProfile);
         userAccountRepository.saveAndFlush(santaAccount);
 
     }
-
+    /* Create account with customer profile */
     @Transactional
     public void createCustomerAccount(UserAccount customerAccount) throws Exception {
         boolean usernameExists = usernameExists(customerAccount.getUsername());
@@ -67,6 +64,10 @@ public class UserAccountService {
         customerAccount.setPassword(passwordEncoder.encode(customerAccount.getPassword()));
         customerAccount.setUserRole("ROLE_CUSTOMER");
         CustomerProfile customerProfile = new CustomerProfile();
+        customerProfile.setCustomerProfileName(customerAccount.getFirstName());
+        customerProfile.setDeliveryAddress(customerAccount.getAddress());
+        customerProfile.setPostalCode(customerAccount.getPostalCode());
+        customerProfile.setEmail(customerAccount.getEmail());
         customerAccount.setCustomerProfile(customerProfile);
         customerProfileRepository.save(customerProfile);
         userAccountRepository.saveAndFlush(customerAccount);
