@@ -1,32 +1,69 @@
 /* Alert messages */
-/* .error-message {
+.error-message {
     color: red;
 }
 
 .alert {
-    border: 0.2rem solid rgb(121, 53, 53);
-    border-radius: 0.2rem;
-    /* width: 100%; 
+    border: 0.2rem solid whitesmoke;
+    border-radius: 0.5rem;
     margin: 2rem;
+    position: absolute;
+    top: 20%;
+    left: 41.5%;
+    z-index: 5;
+    animation-duration: 10s;
+    animation-name: alertOpacity;
+    display: inline-block;
+    opacity: 0;
 }
 
 .alert-success {
-    background-color: rgba(84, 132, 33, 0.8);
+    background-color: rgba(84, 132, 33, 0.5);
+    padding: 2rem 4rem;
 }
 
 .alert-error {
     text-align: center;
     padding: 2rem;
     background-color: rgba(211, 27, 27, 0.5);
-}
 
-.btn-close {
-    background-color: inherit;
-    font-size: 1.8rem;
 }
 
 .alert-info {
     text-align: center;
     padding: 2rem;
-    background-color: rgb(143, 143, 44);
-} */
+    background-color: rgba(85, 136, 42, 0.7);
+
+}
+
+.btn-close {
+    background-color: inherit;
+    font-size: 1.8rem;
+    color: bisque;
+}
+
+
+@keyframes alertOpacity {
+    0% {
+        opacity: 1;
+    }
+
+    25% {
+        opacity: 0.75;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    75% {
+        opacity: 0.25;
+    }
+
+    100% {
+        opacity: 0;
+    }
+}
+
+
+
