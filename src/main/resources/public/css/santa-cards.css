@@ -18,6 +18,11 @@
     border: solid rgb(217 183 142) 0.5rem;
     border-radius: 0.5rem;
     box-shadow: 4px 8px 0 rgb(199 178 22 / 20%), 0 6px 20px 0 rgb(110 109 57 / 20%);
+
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
 /* Lisään myöhemmin toiminnallisuuden kuvan lisäämisen profiilisivun kautta */
@@ -25,8 +30,9 @@
     /* background-image: url("https://source.unsplash.com/80x60/?santa-claus"); */
     background-repeat: no-repeat;
     background-size: cover;
-    min-width: 8rem;
-    min-height: 8rem;
+    width: 100%;
+    min-height: 20rem;
+    height: auto;
     margin-bottom: 1.5rem;
     
 }

@@ -139,7 +139,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td><input class="santa-button" type="submit" value="Päivitä"></td>
+				<td><input class="profile-button" type="submit" value="Päivitä"></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -171,7 +171,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td><input class="santa-button" type="submit" value="Tallenna"></td>
+				<td><input class="profile-button" type="submit" value="Tallenna"></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -201,7 +201,7 @@
 		<tfoot>
 			<tfoot>
 				<tr>
-					<td><input class="santa-button" type="submit" value="Poista tili"></td>
+					<td><input class="profile-delete-button" type="submit" value="Poista tili"></td>
 				</tr>
 			</tfoot>
 		</tfoot>
@@ -218,16 +218,16 @@
 			</tr>
 			<tr>
 				<th colspan="2">
-					<figure>
+					<figure class="image-holder">
 						<img th:src="@{/santa/image/{id}(id=${profileInfo.id})}" alt="" class="santaProfile-img">
-					</figure>
+					</figure>			
 				</th>
 			</tr>
 		</thead>
 		<tbody>
 			<tr>
 				<td><label for="profileImage">Lisää profiilikuva: </label></td>
-				<td><input type="file" th:name="image"></td>
+				<td><input type="file" th:name="image" id="profileImage"></td>
 			</tr>
 			<tr>
 				<td><label for="profilename">Profiilinimi: </label></td>
@@ -266,7 +266,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td><input class="santa-button" type="submit" value="Tallenna"></td>
+				<td><input class="profile-button" type="submit" value="Tallenna"></td>
 			</tr>
 		</tfoot>
 	</table>
@@ -277,7 +277,7 @@
 		<thead>
 			<tr>
 				<th colspan="2">
-					<h2 class="santa-profile-h2">Muokkaa tietojasi</h2>
+					<h2 class="profile-h2">Muokkaa tietojasi</h2>
 				</th>
 			</tr>
 		</thead>
@@ -302,7 +302,7 @@
 		</tbody>
 		<tfoot>
 			<tr>
-				<td><input class="santa-button" type="submit" value="Tallenna"></td>
+				<td><input class="profile-button" type="submit" value="Tallenna"></td>
 			</tr>
 		</tfoot>
 	</table>
