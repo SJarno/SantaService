@@ -23,6 +23,7 @@ async function addOrdersToElement(data) {
 
         /* button for order status: */
         const acceptButton = document.createElement("button");
+        
 
         const paraStatus = document.createElement("p");
         paraStatus.id = "order-status-" + order.id;
@@ -39,7 +40,7 @@ async function addOrdersToElement(data) {
         }
         if (order.status === "ACCEPTED") {
             paraStatus.textContent = "Status: Hyväksytty";
-            acceptButton.className = "disabled-button";
+            acceptButton.className = "disabled-button accepted";
             acceptButton.disabled = true;
             acceptButton.innerText = "Hyväksytty";
         }
@@ -48,7 +49,7 @@ async function addOrdersToElement(data) {
         paraSantaname.innerText = order.santaProfile.santaProfileName;
 
         const paraSantaEmail = document.createElement("p");
-        paraSantaEmail.innerText = order.santaProfile.email;
+        paraSantaEmail.innerText = order.santaProfile.contactEmail;
 
         console.log(order.santaProfile);
 
@@ -146,7 +147,7 @@ const toggleButton = (button, para,  order) => {
     }
     if (order.status === "ACCEPTED") {
         para.textContent = "Status: Hyväksytty";
-        button.className = "disabled-button";
+        button.className = "disabled-button accepted";
         button.disabled = true;
         button.innerText = "Hyväksytty";
     }

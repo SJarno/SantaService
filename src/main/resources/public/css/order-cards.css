@@ -18,31 +18,39 @@
     box-shadow: 4px 8px 0 rgb(199 178 22 / 20%), 0 6px 20px 0 rgb(110 109 57 / 20%);
 }
 
-.delete-button {
-    background-color: red;
-    color: bisque;
+.card-order button {
+    /* color: bisque; */
     border-radius: 0.5rem;
     border: none;
     padding: 0.5rem;
+    width: 100%;
+}
+
+.delete-button {
+    color: bisque;
+    background-color: red;
+
 }
 
 .delete-button:hover {
     background-color: rgb(124, 13, 13);
-    color: rgb(218, 209, 198);
+    color: rgb(252, 252, 252);;
 }
 
-.disabled-button {
-    border-radius: 0.5rem;
-    border: none;
-    padding: 0.5rem;
+.card-order .disabled-button {
+    color: #9d9388;
+    
+}
+
+.accepted {
+    background-color: rgb(14, 88, 14);
+
 }
 
 .accept-button {
-    background-color: rgb(45, 139, 45);
     color: bisque;
-    border-radius: 0.5rem;
-    border: none;
-    padding: 0.5rem;
+    background-color: rgb(45, 139, 45);
+    
 }
 
 .accept-button:hover {

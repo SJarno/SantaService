@@ -50,7 +50,7 @@ async function addOrdersToPage(data) {
         }
         if (order.status === "ACCEPTED") {
             paraStatus.textContent = "Status: Pukki on hyväksynyt";
-            acceptButton.className = "disabled-button";
+            acceptButton.className = "disabled-button accepted";
             acceptButton.disabled = true;
             acceptButton.innerText = "Hyväksytty";
         }
@@ -59,7 +59,7 @@ async function addOrdersToPage(data) {
         paraSantaname.innerText = order.santaProfile.santaProfileName;
 
         const paraSantaEmail = document.createElement("p");
-        paraSantaEmail.innerText = order.santaProfile.email;
+        paraSantaEmail.innerText = order.santaProfile.contactEmail;
 
         /* Customer info: */
         const orderInfoHeading = document.createElement("h3");

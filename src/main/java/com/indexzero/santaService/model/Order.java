@@ -19,7 +19,7 @@ import org.springframework.data.jpa.domain.AbstractPersistable;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.experimental.Delegate;
+
 
 @Entity
 @NoArgsConstructor
@@ -31,6 +31,7 @@ public class Order extends AbstractPersistable<Long>{
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    /* Poistoon osoitteet ja postikoodit?: */
     @Column(name = "delivery_address")
     private String deliveryAddress;
 
@@ -42,8 +43,8 @@ public class Order extends AbstractPersistable<Long>{
     @ManyToOne
     private SantaProfile santaProfile;
     
-    //@JsonBackReference //ei palauta asiakasprofiilia atm
-    @JsonManagedReference 
+    //@JsonBackReference 
+    @JsonManagedReference //palauttaa asiakasprofiilin
     @ManyToOne
     private CustomerProfile customerProfile;
 }
