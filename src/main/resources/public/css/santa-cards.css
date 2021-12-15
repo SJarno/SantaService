@@ -28,8 +28,10 @@
     min-width: 8rem;
     min-height: 8rem;
     margin-bottom: 1.5rem;
+    
 }
 
 .santa-card-figure img {
     width: 100%;
+    background: rgb(28, 51, 95);
 }

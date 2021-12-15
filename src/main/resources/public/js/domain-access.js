@@ -1,5 +1,6 @@
 let url = contextRoot;
 
+/* Get santa cards */
 async function loadSantas(path) {
     /* document.getElementById("santa-cards").remove(); */
     console.log(url+path);
@@ -43,15 +44,14 @@ const addToElement = data => {
         const figureElement = document.createElement("figure");
         figureElement.className = "santa-card-figure";
         const imageElement = document.createElement("img");
-        console.log("/santa/image/"+santa.id);
         
         imageElement.src = "/santa/image/"+santa.id;
         figureElement.appendChild(imageElement);
 
-        const testButton = document.createElement("button");
-        testButton.textContent = "Paina";
-        /* console.log("Tilaukset: "+santa.orders); */
-        testButton.onclick = function() {
+        const orderButton = document.createElement("button");
+        orderButton.textContent = "Lähetä tarjous";
+        orderButton.className = "order-button";
+        orderButton.onclick = function() {
             sendOffer(santa.id);
         };
         
@@ -59,7 +59,7 @@ const addToElement = data => {
         divElement.appendChild(headerElement);
         divElement.appendChild(infoPara);
         divElement.appendChild(pricePara);
-        divElement.appendChild(testButton);
+        divElement.appendChild(orderButton);
 
         document.getElementById("santa-cards").appendChild(divElement);
         

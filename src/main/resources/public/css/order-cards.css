@@ -17,3 +17,46 @@
     border-radius: 0.5rem;
     box-shadow: 4px 8px 0 rgb(199 178 22 / 20%), 0 6px 20px 0 rgb(110 109 57 / 20%);
 }
+
+.delete-button {
+    background-color: red;
+    color: bisque;
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0.5rem;
+}
+
+.delete-button:hover {
+    background-color: rgb(124, 13, 13);
+    color: rgb(218, 209, 198);
+}
+
+.disabled-button {
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0.5rem;
+}
+
+.accept-button {
+    background-color: rgb(45, 139, 45);
+    color: bisque;
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0.5rem;
+}
+
+.accept-button:hover {
+    background-color: rgb(14, 88, 14);
+}
+
+.order-button {
+    background-color: rgb(45, 139, 45);
+    color: bisque;
+    border-radius: 0.5rem;
+    border: none;
+    padding: 0.5rem;
+}
+
+.order-button:hover {
+    background-color: rgb(14, 88, 14);
+}

@@ -188,8 +188,11 @@ footer {
 .alert {
     border: 0.2rem solid whitesmoke;
     border-radius: 0.5rem;
-    /* width: 100%; */
     margin: 2rem;
+    position: absolute;
+    top: 20%;
+    left: 41.5%;
+    z-index: 5;
 }
 
 .alert-success {

@@ -36,12 +36,22 @@ async function addOrdersToPage(data) {
         const header = document.createElement("h3");
         header.innerText = "Tilausnumero: " + order.id;
 
+        /* button for order status: */
+        const acceptButton = document.createElement("button");
+
         const paraStatus = document.createElement("p");
         if (order.status === "PENDING") {
             paraStatus.textContent = "Status: Lähetetty";
+            acceptButton.className = "disabled-button";
+            acceptButton.disabled = true;
+            acceptButton.innerText = "Odottaa";
+            
         }
         if (order.status === "ACCEPTED") {
             paraStatus.textContent = "Status: Pukki on hyväksynyt";
+            acceptButton.className = "disabled-button";
+            acceptButton.disabled = true;
+            acceptButton.innerText = "Hyväksytty";
         }
         /* Add santa info */
         const paraSantaname = document.createElement("p");
@@ -51,11 +61,12 @@ async function addOrdersToPage(data) {
 
         /* Add button for deleting order: */
         const deleteOrderButton = document.createElement("button");
+        deleteOrderButton.className = "delete-button";
         deleteOrderButton.innerHTML = "Peru Tilaus";
         deleteOrderButton.onclick = function () {
             deleteOrder(order.id);
         }
-
+        divElement.appendChild(acceptButton);
         divElement.appendChild(header);
         divElement.appendChild(paraStatus);
         divElement.appendChild(deleteOrderButton);

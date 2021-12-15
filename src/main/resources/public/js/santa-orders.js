@@ -20,34 +20,42 @@ async function addOrdersToElement(data) {
         const header = document.createElement("h3");
         header.innerText = "Tilausnumero: " + order.id;
 
+        const acceptButton = document.createElement("button");
+
         const paraStatus = document.createElement("p");
-        paraStatus.id = "order-status-"+order.id;
+        paraStatus.id = "order-status-" + order.id;
+        /* Update button by status: */
         if (order.status === "PENDING") {
             paraStatus.textContent = "Status: Odottaa hyväksyntää sinulta";
-            const acceptButton = document.createElement("button");
-            acceptButton.id = "accept-btn-"+order.id;
+            acceptButton.className = "accept-button";
+            acceptButton.id = "accept-btn-" + order.id;
             acceptButton.innerText = "Hyväksy";
             acceptButton.onclick = function () {
                 acceptBySanta(order.id, "ACCEPTED");
             }
-            divElement.appendChild(acceptButton);
+
         }
         if (order.status === "ACCEPTED") {
             paraStatus.textContent = "Status: Hyväksytty";
+            acceptButton.className = "disabled-button";
+            acceptButton.disabled = true;
+            acceptButton.innerText = "Hyväksytty";
         }
         /* Add santa info */
         const paraSantaname = document.createElement("p");
-        paraSantaname.innerText = "Santa profile name: "+order.santaProfile.profileName;
+        paraSantaname.innerText = "Santa profile name: " + order.santaProfile.profileName;
 
         console.log(order.santaProfile);
 
         /* Add button for deleting order: */
         const deleteOrderButton = document.createElement("button");
+        deleteOrderButton.className = "delete-button";
         deleteOrderButton.innerHTML = "Peru Tilaus";
         deleteOrderButton.onclick = function () {
             deleteOrder(order.id);
         }
 
+        divElement.appendChild(acceptButton);
         divElement.appendChild(header);
         divElement.appendChild(paraStatus);
         divElement.appendChild(deleteOrderButton);
@@ -59,24 +67,24 @@ async function addOrdersToElement(data) {
 };
 
 async function acceptBySanta(id, status) {
-    console.log(url+"santa/orders/update/"+id+"/"+status);
-    const response = await fetch(url+"santa/orders/update/"+id+"/"+status, {
+    /* console.log(url + "santa/orders/update/" + id + "/" + status); */
+    const acceptBtn = document.getElementById("accept-btn-" + id);
+    acceptBtn.innerText = "Lähettää...";
+    const response = await fetch(url + "santa/orders/update/" + id + "/" + status, {
         headers: {
             "Accept": "application/json"
         },
         method: "put"
     });
     const data = await response.json();
-    const updateElement = document.getElementById("order-status-"+data.id);
-    updateElement.innerText = "Status: Hyväksytty";
-    const acceptBtn = document.getElementById("accept-btn-"+data.id);
-    acceptBtn.remove();
+    const para = document.getElementById("order-status-"+data.id);
+    toggleButton(acceptBtn, para, data);
     console.log(data);
 }
 
 async function deleteOrder(orderId) {
-    console.log(url+"orders/"+orderId+"/delete");
-    const response = await fetch(url+"orders/"+orderId+"/delete", {
+    console.log(url + "orders/" + orderId + "/delete");
+    const response = await fetch(url + "orders/" + orderId + "/delete", {
         headers: {
             "Accept": "application/json"
         },
@@ -85,8 +93,8 @@ async function deleteOrder(orderId) {
     const data = await response.json();
     document.getElementById(data.id).remove();
     window.alert("Tilaus peruttu")
-    
-    
+
+
 }
 
 const removeLinkElements = (id) => {
@@ -95,3 +103,22 @@ const removeLinkElements = (id) => {
         parent.removeChild(parent.firstChild);
     }
 };
+
+const toggleButton = (button, para,  order) => {
+    if (order.status === "PENDING") {
+        para.textContent = "Status: Odottaa hyväksyntää sinulta";
+        button.className = "accept-button";
+        button.id = "accept-btn-" + order.id;
+        button.innerText = "Hyväksy";
+        button.onclick = function () {
+            acceptBySanta(order.id, "ACCEPTED");
+        }
+
+    }
+    if (order.status === "ACCEPTED") {
+        para.textContent = "Status: Hyväksytty";
+        button.className = "disabled-button";
+        button.disabled = true;
+        button.innerText = "Hyväksytty";
+    }
+}

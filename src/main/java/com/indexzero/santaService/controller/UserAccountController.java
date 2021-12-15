@@ -75,7 +75,7 @@ public class UserAccountController {
                     "Jotain meni vikaan, perustietoja ei päivietty");
 
         }
-        redirectAttributes.addFlashAttribute("basicInfoNotUpdated", "Incorrect password!");
+        redirectAttributes.addFlashAttribute("basicInfoNotUpdated", "Väärä salasana!");
         return redirectByUserRole();
 
     }
@@ -104,7 +104,7 @@ public class UserAccountController {
                     errorMessage);
 
         }
-        redirectAttributes.addFlashAttribute("basicInfoNotUpdated", "Väärä salasana");
+        redirectAttributes.addFlashAttribute("basicInfoNotUpdated", "Väärä salasana!");
         return redirectByUserRole();
 
     }
@@ -130,7 +130,7 @@ public class UserAccountController {
                     errorMessage);
 
         }
-        redirectAttributes.addFlashAttribute("basicInfoNotUpdated", "Väärä salasana");
+        redirectAttributes.addFlashAttribute("basicInfoNotUpdated", "Väärä salasana!");
         return redirectByUserRole();
 
     }
