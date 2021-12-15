@@ -30,12 +30,16 @@ public class Order extends AbstractPersistable<Long>{
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
+    private String address;
+    private String postCode;
+
     //@JsonBackReference
     @JsonManagedReference //palauttaa santaprofiilin
     @ManyToOne
     private SantaProfile santaProfile;
     
-    @JsonBackReference //ei palauta asiakasprofiilia atm
+    //@JsonBackReference //ei palauta asiakasprofiilia atm
+    @JsonManagedReference 
     @ManyToOne
     private CustomerProfile customerProfile;
 }

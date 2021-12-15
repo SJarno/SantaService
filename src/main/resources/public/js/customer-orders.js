@@ -22,6 +22,7 @@ async function loadOrders() {
         }
     });
     let orders = await response.json();
+    console.log(orders);
     addOrdersToPage(orders);
 };
 

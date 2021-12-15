@@ -38,8 +38,9 @@ public class SantaProfile extends AbstractPersistable<Long> {
     @Column(name = "profile_image")
     private byte[] profileImage;
 
-    //@JsonIgnore
-    @JsonManagedReference
+    //
+    //@JsonManagedReference
+    @JsonIgnore
     @OneToMany(mappedBy = "santaProfile", cascade = CascadeType.ALL)
     private List<UserAccount> users;
 
