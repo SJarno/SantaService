@@ -102,6 +102,7 @@ public class SantaProfileController {
             @RequestParam String info,
             @RequestParam int price,
             @RequestParam int available,
+            @RequestParam String email,
             RedirectAttributes redirectAttributes) throws IOException{
         /* get useraccount */
         Optional<UserAccount> userAccount = userAccountService
@@ -116,6 +117,7 @@ public class SantaProfileController {
         updatedSantaProfile.setSantaProfileName(profilename);
         updatedSantaProfile.setInfo(info);
         updatedSantaProfile.setPrice(price);
+        updatedSantaProfile.setContactEmail(email);
         if (available == 0) {
             updatedSantaProfile.setAvailable(false);
         } else if (available == 1) {

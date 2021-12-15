@@ -14,12 +14,14 @@ async function loadOrders() {
 async function addOrdersToElement(data) {
     removeLinkElements("order-cards");
     data.forEach(order => {
+        /* Create holder for order card */
         const divElement = document.createElement("div");
         divElement.id = order.id;
         divElement.className = "card-order";
         const header = document.createElement("h3");
         header.innerText = "Tilausnumero: " + order.id;
 
+        /* button for order status: */
         const acceptButton = document.createElement("button");
 
         const paraStatus = document.createElement("p");
@@ -43,9 +45,28 @@ async function addOrdersToElement(data) {
         }
         /* Add santa info */
         const paraSantaname = document.createElement("p");
-        paraSantaname.innerText = "Santa profile name: " + order.santaProfile.profileName;
+        paraSantaname.innerText = order.santaProfile.santaProfileName;
+
+        const paraSantaEmail = document.createElement("p");
+        paraSantaEmail.innerText = order.santaProfile.email;
 
         console.log(order.santaProfile);
+
+        /* Customer info: */
+        const orderInfoHeading = document.createElement("h3");
+        orderInfoHeading.innerText = "Tilaajan tiedot";
+
+        const customerProfileNamePara = document.createElement("p");
+        customerProfileNamePara.innerText = order.customerProfile.customerProfileName;
+
+        const addressPara = document.createElement("p");
+        addressPara.innerText = order.customerProfile.deliveryAddress;
+
+        const postCodePara = document.createElement("p");
+        postCodePara.innerText = order.customerProfile.postalCode;
+
+        const customerEmailPara = document.createElement("p");
+        customerEmailPara.innerText = order.customerProfile.email;
 
         /* Add button for deleting order: */
         const deleteOrderButton = document.createElement("button");
@@ -57,7 +78,15 @@ async function addOrdersToElement(data) {
 
         divElement.appendChild(acceptButton);
         divElement.appendChild(header);
+        divElement.appendChild(paraSantaname)
         divElement.appendChild(paraStatus);
+        divElement.appendChild(paraSantaEmail);
+        divElement.appendChild(document.createElement("hr"));
+        divElement.appendChild(orderInfoHeading);
+        divElement.appendChild(customerProfileNamePara);
+        divElement.appendChild(addressPara);
+        divElement.appendChild(postCodePara);
+        divElement.appendChild(customerEmailPara);
         divElement.appendChild(deleteOrderButton);
 
         document.getElementById("order-cards").appendChild(divElement);

@@ -10,7 +10,7 @@ import org.springframework.data.repository.query.Param;
 
 public interface SantaProfileRepository extends JpaRepository<SantaProfile, Long> {
     /* Find all available santas */
-    @Query(value = "SELECT S.id, S.available, S.info, S.price, S.profile_image, S.santa_profile_name FROM SANTA_PROFILE AS S WHERE S.available = TRUE", nativeQuery = true)
+    @Query(value = "SELECT S.id, S.available, S.contact_email, S.info, S.price, S.profile_image, S.santa_profile_name FROM SANTA_PROFILE AS S WHERE S.available = TRUE", nativeQuery = true)
     List<SantaProfile> customFindAllAvailableSantas();
 
     /* Find all available santas by postalcode */

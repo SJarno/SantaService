@@ -3,6 +3,8 @@ package com.indexzero.santaService.controller;
 import java.util.List;
 import java.util.Optional;
 
+import javax.transaction.Transactional;
+
 import com.indexzero.santaService.model.CustomerProfile;
 import com.indexzero.santaService.model.Order;
 import com.indexzero.santaService.model.UserAccount;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
@@ -49,11 +52,31 @@ public class CustomerProfileController {
 
         return "redirect:login-page";
     }
+    /* Update profile-info */
+    @Transactional
+    @PostMapping("/update/customer-profile")
+    public String updateCustomerProfile(
+        @RequestParam String profileName,
+        @RequestParam String email,
+        @RequestParam String deliveryAddress,
+        @RequestParam String postalCode
+        ) {
+        Optional<UserAccount> userAccount = userAccountService
+                .findUserAccountByUsername(getAuthenticatedUser().getName());
+        
+        System.out.println(profileName);
+        if (userAccount.isPresent()) {
+            userAccount.get().getCustomerProfile().setCustomerProfileName(profileName);
+            userAccount.get().getCustomerProfile().setEmail(email);
+            userAccount.get().getCustomerProfile().setDeliveryAddress(deliveryAddress);
+            userAccount.get().getCustomerProfile().setPostalCode(postalCode);
+        }
+        return redirectByUserRole();
+    }
     /* Create new order */
     @ResponseBody
     @PostMapping("/customer/{id}/create-order")
     public Order createOrder(@PathVariable Long id) {
-        
         return orderService.createOrder(id);
     }
     /* Get orders made by customer: */
@@ -68,6 +91,20 @@ public class CustomerProfileController {
     @DeleteMapping("/orders/{id}/delete")
     public Order deleteOrderById(@PathVariable Long id) {
         return orderService.deleteOrder(id);
+    }
+    private Authentication getAuthenticatedUser() {
+        return SecurityContextHolder.getContext().getAuthentication();
+
+    }
+    private String redirectByUserRole() {
+        Optional<UserAccount> userAccount = userAccountService
+                .findUserAccountByUsername(getAuthenticatedUser().getName());
+        if (userAccount.isPresent()) {
+            String userRole = userAccount.get().getUserRole();
+            return userRole.equals("ROLE_SANTA") ? "redirect:/santa-profile"
+                    : userRole.equals("ROLE_CUSTOMER") ? "redirect:/customer-profile" : "redirect:/";
+        }
+        return "redirect:/custom-logout";
     }
 
 }

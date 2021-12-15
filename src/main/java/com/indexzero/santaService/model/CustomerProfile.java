@@ -3,8 +3,10 @@ package com.indexzero.santaService.model;
 import java.util.List;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -23,7 +25,18 @@ import lombok.NoArgsConstructor;
 @Data
 public class CustomerProfile extends AbstractPersistable<Long>{
     
+    @Column(name = "customer_profile_name")
     private String customerProfileName;
+
+    @Column(name = "contact_email")
+    @Email
+    private String email;
+
+    @Column(name = "delivery_address")
+    private String deliveryAddress;
+
+    @Column(name = "postal_code")
+    private String postalCode;
 
     //@JsonBackReference
     @JsonIgnore

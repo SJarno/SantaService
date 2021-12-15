@@ -78,6 +78,7 @@ public class SantaProfileService {
         existingSantaProfile.setInfo(updatedSantaProfile.getInfo());
         existingSantaProfile.setPrice(updatedSantaProfile.getPrice());
         existingSantaProfile.setAvailable(updatedSantaProfile.isAvailable());
+        existingSantaProfile.setContactEmail(updatedSantaProfile.getContactEmail());
 
     }
 

@@ -1,6 +1,7 @@
 package com.indexzero.santaService.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.validation.constraints.NotBlank;
@@ -23,26 +24,35 @@ import lombok.NoArgsConstructor;
 public class UserAccount extends AbstractPersistable<Long> {
     /* Security */
 
-    @NotBlank(message = "Ei saa olla tyhjä")
+    @NotBlank(message = "Käyttäjätunnus ei saa olla tyhjä")
     private String username;
 
-    @NotBlank(message = "Ei saa olla tyhjä")
-    @Size(min = 3, message = "Täytyy olla vähintään kolme merkkinen")
+    @NotBlank(message = "Salasana ei saa olla tyhjä")
+    @Size(min = 3, message = "Salasanan täytyy olla vähintään kolme merkkinen")
     private String password;
     private String userRole;
 
     /* Basic contact information */
-    @NotBlank(message = "Ei saa olla tyhjä")
+    @Column(name = "first_name")
+    @NotBlank(message = "Kenttä ei saa olla tyhjä")
     private String firstName;
-    @NotBlank(message = "Ei saa olla tyhjä")
+
+    @Column(name = "last_name")
+    @NotBlank(message = "Kenttä ei saa olla tyhjä")
     private String lastName;
-    @NotBlank(message = "Ei saa olla tyhjä")
+
+    @NotBlank(message = "Kenttä ei saa olla tyhjä")
     private String email;
-    @NotBlank(message = "Ei saa olla tyhjä")
+
+    @Column(name = "phone_number")
+    @NotBlank(message = "Kenttä ei saa olla tyhjä")
     private String phoneNumber;
-    @NotBlank(message = "Ei saa olla tyhjä")
+
+    @NotBlank(message = "Kenttä ei saa olla tyhjä")
     private String address;
-    @NotBlank(message = "Ei saa olla tyhjä")
+
+    @Column(name = "postal_code")
+    @NotBlank(message = "Kenttä ei saa olla tyhjä")
     private String postalCode;
 
     /*Santa Profile, get json back */

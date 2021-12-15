@@ -5,7 +5,7 @@
 <head th:replace="fragments/head :: head_fragment('santa-profile')">
 </head>
 
-<body sec:authorize="hasAuthority('ROLE_SANTA')" >
+<body sec:authorize="hasAuthority('ROLE_SANTA')">
 	<nav th:replace="fragments/navigation :: main-nav-fragment"></nav>
 	<main class="santa-profile-main" id="santa-main-image">
 		<section class="santa-profile-header">
@@ -67,65 +67,10 @@
 					</h3>
 					<h3>Hinta: <span th:text="${profileInfo.price}"></span></h3>
 					<h3>Käytettävissä: <span th:text="${profileInfo.Available}"></span></h3>
+					<h3>Sähköposti: <span th:text="${profileInfo.contactEmail}"></span></h3>
 				</div>
 				<div class="santa-profile-info">
-					<form th:action="@{/update/santa-account}" method="post" enctype="multipart/form-data">
-						<table>
-							<thead>
-								<tr>
-									<th colspan="2">
-										<h2 class="santa-profile-h2">Muokkaa tietojasi</h2>
-									</th>
-								</tr>
-								<tr>
-									<th colspan="2">
-										<figure>
-											<img th:src="@{/santa/image/{id}(id=${profileInfo.id})}" alt="" class="santaProfile-img">
-										</figure>
-									</th>
-								</tr>
-							</thead>
-							<tbody>
-								<tr>
-									<td><label for="profileImage">Lisää profiilikuva: </label></td>
-									<td><input type="file" th:name="image"></td>
-								</tr>
-								<tr>
-									<td><label for="profilename">Profiilinimi: </label></td>
-									<td><input type="text" th:name="profilename"
-											th:value="${profileInfo.santaProfileName}"></td>
-								</tr>
-								<tr>
-									<td><label for="info">Lisätiedot: </label></td>
-									<td>
-										<textarea th:name="info" th:text="${profileInfo.info}"></textarea>
-									</td>
-								</tr>
-								<tr>
-									<td><label for="price">Hinta: </label></td>
-									<td><input type="number" th:name="price" th:value="${profileInfo.price}" id="price"
-											min="1" max="100">
-									</td>
-								</tr>
-								<tr>
-									<td><label for="available">Käytettävissä: </label></td>
-								</tr>
-								<tr>
-									<td>
-										<input type="radio" th:name="available" th:value="1" th:checked="${checkedYes}">Kyllä
-									</td>
-									<td>
-										<input type="radio" th:name="available" th:value="0" th:checked="${checkedNo}">Ei
-									</td>
-								</tr>
-							</tbody>
-							<tfoot>
-								<tr>
-									<td><input class="santa-button" type="submit" value="Tallenna"></td>
-								</tr>
-							</tfoot>
-						</table>
-					</form>
+					<form th:replace="fragments/forms :: santaprofile-form"></form>
 				</div>
 			</article>
 			<article id="tab-jobs-info" class="tabContent">
@@ -133,7 +78,7 @@
 					<h1>Työtarjoukset</h1>
 				</div>
 				<div class="orders-container" id="order-cards">
-                </div>
+				</div>
 			</article>
 		</section>
 	</main>

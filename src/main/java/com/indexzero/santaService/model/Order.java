@@ -1,6 +1,7 @@
 package com.indexzero.santaService.model;
 
 import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -30,8 +31,11 @@ public class Order extends AbstractPersistable<Long>{
     @Enumerated(EnumType.STRING)
     private OrderStatus status;
 
-    private String address;
-    private String postCode;
+    @Column(name = "delivery_address")
+    private String deliveryAddress;
+
+    @Column(name = "postal_code")
+    private String postalCode;
 
     //@JsonBackReference
     @JsonManagedReference //palauttaa santaprofiilin

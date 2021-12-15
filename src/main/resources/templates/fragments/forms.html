@@ -207,3 +207,103 @@
 		</tfoot>
 	</table>
 </form>
+<!-- Form for updating santa profile -->
+<form th:action="@{/update/santa-account}" method="post" enctype="multipart/form-data" th:fragment="santaprofile-form">
+	<table>
+		<thead>
+			<tr>
+				<th colspan="2">
+					<h2 class="santa-profile-h2">Muokkaa tietojasi</h2>
+				</th>
+			</tr>
+			<tr>
+				<th colspan="2">
+					<figure>
+						<img th:src="@{/santa/image/{id}(id=${profileInfo.id})}" alt="" class="santaProfile-img">
+					</figure>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><label for="profileImage">Lisää profiilikuva: </label></td>
+				<td><input type="file" th:name="image"></td>
+			</tr>
+			<tr>
+				<td><label for="profilename">Profiilinimi: </label></td>
+				<td><input type="text" th:name="profilename"
+						th:value="${profileInfo.santaProfileName}"></td>
+			</tr>
+			<tr>
+				<td><label for="info">Lisätiedot: </label></td>
+				<td>
+					<textarea th:name="info" th:text="${profileInfo.info}"></textarea>
+				</td>
+			</tr>
+			<tr>
+				<td><label for="price">Hinta: </label></td>
+				<td><input type="number" th:name="price" th:value="${profileInfo.price}" id="price"
+						min="1" max="100">
+				</td>
+			</tr>
+			<tr>
+				<td><label for="available">Käytettävissä: </label></td>
+			</tr>
+			<tr>
+				<td>
+					<p>Kyllä</p>
+					<input type="radio" th:name="available" th:value="1" th:checked="${checkedYes}">
+				</td>
+				<td>
+					<p>Ei</p>
+					<input type="radio" th:name="available" th:value="0" th:checked="${checkedNo}">
+				</td>
+			</tr>
+			<tr>
+				<td><label for="email">Julkinen sähköposti: </label></td>
+				<td><input type="text" th:name="email" th:value="${profileInfo.contactEmail}"></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td><input class="santa-button" type="submit" value="Tallenna"></td>
+			</tr>
+		</tfoot>
+	</table>
+</form>
+<!-- Form for updating customer profile -->
+<form th:action="@{/update/customer-profile}" method="post" th:fragment="customer-profile-form">
+	<table>
+		<thead>
+			<tr>
+				<th colspan="2">
+					<h2 class="santa-profile-h2">Muokkaa tietojasi</h2>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><label for="profilename">Profiilinimi: </label></td>
+				<td><input type="text" name="profileName"
+						th:value="${profileInfo.customerProfileName}"></td>
+			</tr>
+			<tr>
+				<td><label for="email">Profiilin sähköposti: </label></td>
+				<td><input type="email" name="email" th:value="${profileInfo.email}"></td>
+			</tr>
+			<tr>
+				<td><label for="deliveryAddress">Toimitusosoite: </label></td>
+				<td><input type="text" name="deliveryAddress" th:value="${profileInfo.deliveryAddress}"></td>
+			</tr>
+			<tr>
+				<td><label for="postalCode">Postinumero: </label></td>
+				<td><input type="text" name="postalCode" th:value="${profileInfo.postalCode}"></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td><input class="santa-button" type="submit" value="Tallenna"></td>
+			</tr>
+		</tfoot>
+	</table>
+</form>

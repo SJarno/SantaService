@@ -48,6 +48,8 @@ public class OrderService {
             order.setStatus(status);
             order.setSantaProfile(santaProfile);
             order.setCustomerProfile(customerProfile);
+            order.setDeliveryAddress(customerProfile.getDeliveryAddress());
+            order.setPostalCode(customerProfile.getPostalCode());
             customerProfile.getOrders().add(order);
             santaProfile.getOrders().add(order);
             return orderRepository.saveAndFlush(order);

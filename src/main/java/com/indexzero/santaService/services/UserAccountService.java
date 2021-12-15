@@ -39,7 +39,7 @@ public class UserAccountService {
 
     /* Create */
     @Transactional
-    public void saveSantaAccount(UserAccount santaAccount) throws Exception {
+    public void createSantaAccount(UserAccount santaAccount) throws Exception {
         /* Check if username exists */
         boolean usernameExists = usernameExists(santaAccount.getUsername());
         if (usernameExists) {

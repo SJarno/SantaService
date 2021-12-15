@@ -61,7 +61,16 @@
 				</div>
             </article>
             <article id="tab-customer-info" class="tabContent">
-                <h1>Profiilitiedot</h1>
+                <div class="santa-profile-info">
+					<h2 class="profile-h2">Profiilitiedot/Toimitustiedot</h2>
+					<h3>Profiilinimi: <span th:text="${profileInfo.customerProfileName}"></span></h3>
+                    <h3>Sähköposti: <span th:text="${profileInfo.email}"></span></h3>
+                    <h3>Toimitusosoite: <span th:text="${profileInfo.deliveryAddress}"></span></h3>
+                    <h3>Postinumero: <span th:text="${profileInfo.postalCode}"></span></h3>
+				</div>
+                <div class="santa-profile-info">
+                    <form th:replace="fragments/forms :: customer-profile-form"></form>
+                </div>
             </article>
             <article id="tab-available-santas" class="tabContent">
                 <div class="titleForAvailableSantas">

@@ -54,9 +54,28 @@ async function addOrdersToPage(data) {
             acceptButton.disabled = true;
             acceptButton.innerText = "Hyväksytty";
         }
-        /* Add santa info */
+        /* Santa info */
         const paraSantaname = document.createElement("p");
-        paraSantaname.innerText = "Santa profile name: "+order.santaProfile.profileName;
+        paraSantaname.innerText = order.santaProfile.santaProfileName;
+
+        const paraSantaEmail = document.createElement("p");
+        paraSantaEmail.innerText = order.santaProfile.email;
+
+        /* Customer info: */
+        const orderInfoHeading = document.createElement("h3");
+        orderInfoHeading.innerText = "Tilaajan tiedot";
+
+        const customerProfileNamePara = document.createElement("p");
+        customerProfileNamePara.innerText = order.customerProfile.customerProfileName;
+
+        const addressPara = document.createElement("p");
+        addressPara.innerText = order.customerProfile.deliveryAddress;
+
+        const postCodePara = document.createElement("p");
+        postCodePara.innerText = order.customerProfile.postalCode;
+
+        const customerEmailPara = document.createElement("p");
+        customerEmailPara.innerText = order.customerProfile.email;
 
         console.log(order.santaProfile);
 
@@ -69,7 +88,15 @@ async function addOrdersToPage(data) {
         }
         divElement.appendChild(acceptButton);
         divElement.appendChild(header);
+        divElement.appendChild(paraSantaname)
         divElement.appendChild(paraStatus);
+        divElement.appendChild(paraSantaEmail);
+        divElement.appendChild(document.createElement("hr"));
+        divElement.appendChild(orderInfoHeading);
+        divElement.appendChild(customerProfileNamePara);
+        divElement.appendChild(addressPara);
+        divElement.appendChild(postCodePara);
+        divElement.appendChild(customerEmailPara);
         divElement.appendChild(deleteOrderButton);
 
         document.getElementById("order-cards").appendChild(divElement);

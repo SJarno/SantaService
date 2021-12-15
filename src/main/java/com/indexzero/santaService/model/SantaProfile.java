@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Lob;
 import javax.persistence.OneToMany;
+import javax.validation.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -28,16 +29,15 @@ import lombok.NoArgsConstructor;
 @Data
 public class SantaProfile extends AbstractPersistable<Long> {
     
+    @Column(name = "santa_profile_name")
     private String santaProfileName;
     private String info;
     private int price;
     private boolean available;
 
-    @Lob
-    @Basic(fetch = FetchType.EAGER)
-    @Column(name = "profile_image")
-    private byte[] profileImage;
-
+    @Column(name = "contact_email")
+    @Email
+    private String contactEmail;
     //
     //@JsonManagedReference
     @JsonIgnore
@@ -48,5 +48,10 @@ public class SantaProfile extends AbstractPersistable<Long> {
     @OneToMany(mappedBy = "santaProfile", cascade = CascadeType.ALL, orphanRemoval = true)
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Order> orders;
+
+    @Lob
+    @Basic(fetch = FetchType.EAGER)
+    @Column(name = "profile_image")
+    private byte[] profileImage;
     
 }
