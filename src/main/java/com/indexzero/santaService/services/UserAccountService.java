@@ -90,24 +90,6 @@ public class UserAccountService {
         return userAccountRepository.findAll();
     }
 
-    /* Get Santas by role, and include only what needed */
-    public List<UserAccount> getNewSantas() {
-        return userAccountRepository.findAll().stream()
-                .filter(user -> user.getUserRole().equals("ROLE_SANTA"))
-                .map(account -> {
-                    UserAccount newAccount = new UserAccount();
-                    newAccount.setFirstName(account.getFirstName());
-                    return newAccount;
-                }).collect(Collectors.toList());
-    }
-
-    /* Get all santas, by role: */
-    public List<UserAccount> getAllSantaUsers() {
-        return userAccountRepository.findAll().stream()
-                .filter(user -> user.getUserRole().equals("ROLE_SANTA"))
-                .collect(Collectors.toList());
-    }
-
     /* Update basic info: */
     @Transactional
     public boolean updateAccountInfo(UserAccount newAccount) {
@@ -130,14 +112,28 @@ public class UserAccountService {
     @Transactional
     public boolean updateUsername(String username) throws Exception {
         Optional<UserAccount> account = securityContextService.getAuthenticatedUserAccount();
-            boolean usernameExists = usernameExists(username);
-            if (usernameExists) {
-                throw new Exception("Tämä käyttäjätunnus on jo olemassa!");
+        boolean usernameExists = usernameExists(username);
+        if (usernameExists) {
+            throw new Exception("Tämä käyttäjätunnus on jo olemassa!");
 
-            }
-            account.get().setUsername(username);
+        }
+        account.get().setUsername(username);
+        return true;
+
+    }
+
+    /* Change password */
+    @Transactional
+    public boolean changePassword(String oldPassword, String newPassword) {
+        if (newPassword.length() < 3 || newPassword == null) {
+            throw new IllegalArgumentException("Salasana liian lyhyt!");
+        }
+        if (securityContextService.accountExistsAndPasswordMatches(oldPassword)) {
+            Optional<UserAccount> account = securityContextService.getAuthenticatedUserAccount();
+            account.get().setPassword(passwordEncoder.encode(newPassword));
             return true;
-        
+        }
+        return false;
     }
 
     /* Delete useraccount and attachded profile */

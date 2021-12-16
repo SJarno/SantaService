@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.validation.Valid;
 
 import com.indexzero.santaService.model.UserAccount;
 import com.indexzero.santaService.services.RedirectService;
@@ -12,6 +13,7 @@ import com.indexzero.santaService.services.UserAccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,16 +33,14 @@ public class UserAccountController {
     @Autowired
     private SecurityContextService securityContextService;
 
-    /* Create */
+    
 
-    /* Read */
-
-    /* Include only what needed, santa roles */
-    @ResponseBody
+    /*Get santas Include only what needed, santa roles */
+    /* @ResponseBody
     @RequestMapping(value = "santa-users", method = RequestMethod.GET, produces = "application/json")
     public List<UserAccount> getNewSantas() {
         return userAccountService.getNewSantas();
-    }
+    } */
 
     /* Update basic account info: */
     @PostMapping("/update/account-basic")
@@ -88,7 +88,6 @@ public class UserAccountController {
             String errorMessage = "";
             try {
                 success = userAccountService.updateUsername(username);
-                /* refreshAuth(username, password, request); */
                 securityContextService.refreshAuth(username, password, request);
             } catch (Exception e) {
                 errorMessage = e.getMessage();
@@ -100,6 +99,34 @@ public class UserAccountController {
         redirectAttributes.addFlashAttribute("basicInfoNotUpdated", "Väärä salasana!");
         return redirectService.redirectByUserRole();
 
+    }
+    /* Update password */
+    @PostMapping("/update/account-password")
+    public String updatePassword(
+        @RequestParam String newPassword, 
+        @RequestParam String oldPassword,
+        HttpServletRequest request,
+        RedirectAttributes redirectAttributes) {
+
+        boolean success = false;
+        if (securityContextService.accountExistsAndPasswordMatches(oldPassword)) {
+            String errorMessage = "";
+            try {
+                success = userAccountService.changePassword(oldPassword, newPassword);
+            UserAccount userAccount = securityContextService.getAuthenticatedUserAccount().get();
+            securityContextService.refreshAuth(
+                userAccount.getUsername(), 
+                newPassword, 
+                request);
+            } catch (Exception e) {
+                errorMessage = e.getMessage();
+            }
+            
+            return redirectService.redirectOnSuccess(success, redirectAttributes, "Salasana vaihdettu", errorMessage);
+        }
+        redirectAttributes.addFlashAttribute("basicInfoNotUpdated", "Väärä salasana!");
+        return redirectService.redirectByUserRole();
+        
     }
 
     /* Delete useraccount */

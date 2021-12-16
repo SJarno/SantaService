@@ -177,6 +177,39 @@
 	</table>
 </form>
 
+<!-- Form for updating password: -->
+<form th:action="@{/update/account-password}" method="post" th:fragment="updatePassword-form">
+	<table>
+		<thead>
+			<tr>
+				<th colspan="2">
+					<h2 class="profile-h2">Vaihda salasana</h2>
+				</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr>
+				<td><label for="newPassword">Uusi salasana: </label></td>
+				<td><input type="password" th:name="newPassword"></td>
+			</tr>
+			<tr>
+				<th>
+					<hr>
+				</th>
+			</tr>
+			<tr>
+				<td><label for="password">Nykyinen salasana: </label></td>
+				<td><input type="password" th:name="oldPassword"></td>
+			</tr>
+		</tbody>
+		<tfoot>
+			<tr>
+				<td><input class="profile-button" type="submit" value="Tallenna"></td>
+			</tr>
+		</tfoot>
+	</table>
+</form>
+
 <!-- Form for deleting user: -->
 <form th:action="@{/delete-user}" method="post" th:fragment="deleteUser-form">
 	<table>
