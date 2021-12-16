@@ -42,7 +42,6 @@ const addToElement = data => {
         pricePara.innerText = "Hinta: "+santa.price;
 
         const figureElement = document.createElement("figure");
-        /* figureElement.style.backgroundImage = "url('/santa/image/')"+santa.id; */
         figureElement.style.backgroundImage = `url('/santa/image/${santa.id}')`;
         figureElement.className = "santa-card-figure";
         /* const imageElement = document.createElement("img"); */

@@ -30,7 +30,7 @@ public class SantaController {
         return "santa-claus";
     }
 
-    /* Create new santa account */
+    /* Create new user account with santaprofile */
     @PostMapping("/register/santa")
     public String addSantaProfile(
         @Valid @ModelAttribute UserAccount santaAccount,

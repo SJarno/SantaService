@@ -31,7 +31,10 @@ public class UserAccountService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    /* Create account with santa profile*/
+    @Autowired
+    private SecurityContextService securityContextService;
+
+    /* Create account with santa profile */
     @Transactional
     public void createSantaAccount(UserAccount santaAccount) throws Exception {
         /* Check if username exists */
@@ -46,13 +49,14 @@ public class UserAccountService {
         SantaProfile santaProfile = new SantaProfile();
         santaProfile.setAvailable(true);
         santaProfile.setContactEmail(santaAccount.getEmail());
-        santaProfile.setSantaProfileName(santaAccount.getFirstName()+" Pukki");
+        santaProfile.setSantaProfileName(santaAccount.getFirstName() + " Pukki");
         santaAccount.setSantaProfile(santaProfile);
 
         santaProfileService.saveSantaProfile(santaProfile);
         userAccountRepository.saveAndFlush(santaAccount);
 
     }
+
     /* Create account with customer profile */
     @Transactional
     public void createCustomerAccount(UserAccount customerAccount) throws Exception {
@@ -106,29 +110,26 @@ public class UserAccountService {
 
     /* Update basic info: */
     @Transactional
-    public boolean updateAccountInfo(Optional<UserAccount> oldAccount, UserAccount newAccount) {
-        if (oldAccount.isPresent()) {
-            /* Check if any value is blank */
-            if (newAccount.anyValueBlank()) {
-                return false;
-            }
-            
-            /* Else assign new values to old */
-            oldAccount.get().setFirstName(newAccount.getFirstName());
-            oldAccount.get().setLastName(newAccount.getLastName());
-            oldAccount.get().setEmail(newAccount.getEmail());
-            oldAccount.get().setPhoneNumber(newAccount.getPhoneNumber());
-            oldAccount.get().setPostalCode(newAccount.getPostalCode());
-            return true;
+    public boolean updateAccountInfo(UserAccount newAccount) {
+        Optional<UserAccount> oldAccount = securityContextService.getAuthenticatedUserAccount();
+        if (newAccount.anyValueBlank()) {
+            return false;
         }
-        return false;
+
+        /* Else assign new values to old */
+        oldAccount.get().setFirstName(newAccount.getFirstName());
+        oldAccount.get().setLastName(newAccount.getLastName());
+        oldAccount.get().setEmail(newAccount.getEmail());
+        oldAccount.get().setPhoneNumber(newAccount.getPhoneNumber());
+        oldAccount.get().setPostalCode(newAccount.getPostalCode());
+        return true;
 
     }
 
     /* Update username */
     @Transactional
-    public boolean updateUsername(Optional<UserAccount> account, String username) throws Exception {
-        if (account.isPresent()) {
+    public boolean updateUsername(String username) throws Exception {
+        Optional<UserAccount> account = securityContextService.getAuthenticatedUserAccount();
             boolean usernameExists = usernameExists(username);
             if (usernameExists) {
                 throw new Exception("Tämä käyttäjätunnus on jo olemassa!");
@@ -136,14 +137,12 @@ public class UserAccountService {
             }
             account.get().setUsername(username);
             return true;
-        }
-        return false;
+        
     }
 
     /* Delete useraccount and attachded profile */
     @Transactional
     public boolean deleteAccount(UserAccount userAccount) throws NullPointerException {
-        /* userAccountRepository.delete(userAccount); */
         userAccountRepository.deleteById(userAccount.getId());
         /* If account has certain role */
         if (userAccount.getUserRole().equals("ROLE_SANTA")) {
@@ -152,7 +151,7 @@ public class UserAccountService {
                             .getSantaProfile().getId());
             if (santaProfileToDelete.isPresent()) {
                 santaProfileService.deleteSantaprofile(santaProfileToDelete.get().getId());
-                
+
             }
 
         }
@@ -168,7 +167,6 @@ public class UserAccountService {
 
         return true;
     }
-
 
     private boolean usernameExists(String username) {
         return userAccountRepository.findByUsername(username).isPresent();
