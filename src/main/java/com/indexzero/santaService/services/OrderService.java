@@ -12,7 +12,6 @@ import com.indexzero.santaService.model.SantaProfile;
 import com.indexzero.santaService.model.UserAccount;
 import com.indexzero.santaService.repositories.OrderRepository;
 
-import org.apache.tomcat.jni.Status;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

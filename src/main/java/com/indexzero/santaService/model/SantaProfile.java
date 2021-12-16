@@ -13,7 +13,6 @@ import javax.validation.constraints.Email;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
@@ -38,7 +37,7 @@ public class SantaProfile extends AbstractPersistable<Long> {
     @Column(name = "contact_email")
     @Email
     private String contactEmail;
-    //
+    
     //@JsonManagedReference
     @JsonIgnore
     @OneToMany(mappedBy = "santaProfile", cascade = CascadeType.ALL)

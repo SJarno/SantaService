@@ -3,22 +3,14 @@ package com.indexzero.santaService.controller;
 import java.util.List;
 import java.util.Optional;
 
-import javax.transaction.Transactional;
-
-import com.indexzero.santaService.model.CustomerProfile;
 import com.indexzero.santaService.model.Order;
 import com.indexzero.santaService.model.UserAccount;
-import com.indexzero.santaService.repositories.CustomerProfileRepository;
-import com.indexzero.santaService.repositories.OrderRepository;
 import com.indexzero.santaService.services.CustomerProfileService;
 import com.indexzero.santaService.services.OrderService;
 import com.indexzero.santaService.services.RedirectService;
 import com.indexzero.santaService.services.SecurityContextService;
-import com.indexzero.santaService.services.UserAccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -104,12 +96,5 @@ public class CustomerProfileController {
     public Order deleteOrderById(@PathVariable Long id) {
         return orderService.deleteOrder(id);
     }
-
-    /*
-     * private Authentication getAuthenticatedUser() {
-     * return SecurityContextHolder.getContext().getAuthentication();
-     * 
-     * }
-     */
 
 }

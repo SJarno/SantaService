@@ -5,7 +5,6 @@ import java.util.Optional;
 import javax.transaction.Transactional;
 
 import com.indexzero.santaService.model.UserAccount;
-import com.indexzero.santaService.repositories.CustomerProfileRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
