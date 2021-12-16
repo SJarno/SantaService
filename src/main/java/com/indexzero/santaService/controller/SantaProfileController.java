@@ -12,7 +12,6 @@ import com.indexzero.santaService.services.OrderService;
 import com.indexzero.santaService.services.RedirectService;
 import com.indexzero.santaService.services.SantaProfileService;
 import com.indexzero.santaService.services.SecurityContextService;
-import com.indexzero.santaService.services.UserAccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,8 +33,6 @@ public class SantaProfileController {
     @Autowired
     private SantaProfileService santaProfileService;
 
-    @Autowired
-    private UserAccountService userAccountService;
 
     @Autowired
     private OrderService orderService;
