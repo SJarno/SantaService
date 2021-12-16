@@ -34,47 +34,39 @@ public class UserAccountService {
     @Autowired
     private SecurityContextService securityContextService;
 
-    /* Create account with santa profile */
+
     @Transactional
-    public void createSantaAccount(UserAccount santaAccount) throws Exception {
-        /* Check if username exists */
-        boolean usernameExists = usernameExists(santaAccount.getUsername());
-        if (usernameExists) {
+    public void createUserAccount(UserAccount userAccount, String role) throws Exception {
+        if (usernameExists(userAccount.getUsername())) {
             throw new Exception("Tämä käyttäjätunnus on jo olemassa!");
 
         }
+        if (role.equals("santa")) {
+            /* Create useraccount with role santa */
+            userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
+            userAccount.setUserRole("ROLE_SANTA");
+            SantaProfile santaProfile = new SantaProfile();
+            santaProfile.setAvailable(true);
+            santaProfile.setContactEmail(userAccount.getEmail());
+            santaProfile.setSantaProfileName(userAccount.getFirstName() + " Pukki");
+            userAccount.setSantaProfile(santaProfile);
 
-        santaAccount.setPassword(passwordEncoder.encode(santaAccount.getPassword()));
-        santaAccount.setUserRole("ROLE_SANTA");
-        SantaProfile santaProfile = new SantaProfile();
-        santaProfile.setAvailable(true);
-        santaProfile.setContactEmail(santaAccount.getEmail());
-        santaProfile.setSantaProfileName(santaAccount.getFirstName() + " Pukki");
-        santaAccount.setSantaProfile(santaProfile);
-
-        santaProfileService.saveSantaProfile(santaProfile);
-        userAccountRepository.saveAndFlush(santaAccount);
-
-    }
-
-    /* Create account with customer profile */
-    @Transactional
-    public void createCustomerAccount(UserAccount customerAccount) throws Exception {
-        boolean usernameExists = usernameExists(customerAccount.getUsername());
-        if (usernameExists) {
-            throw new Exception("Tämä käyttäjätunnus on jo olemassa!");
+            santaProfileService.saveSantaProfile(santaProfile);
+            userAccountRepository.saveAndFlush(userAccount);
 
         }
-        customerAccount.setPassword(passwordEncoder.encode(customerAccount.getPassword()));
-        customerAccount.setUserRole("ROLE_CUSTOMER");
-        CustomerProfile customerProfile = new CustomerProfile();
-        customerProfile.setCustomerProfileName(customerAccount.getFirstName());
-        customerProfile.setDeliveryAddress(customerAccount.getAddress());
-        customerProfile.setPostalCode(customerAccount.getPostalCode());
-        customerProfile.setEmail(customerAccount.getEmail());
-        customerAccount.setCustomerProfile(customerProfile);
-        customerProfileRepository.save(customerProfile);
-        userAccountRepository.saveAndFlush(customerAccount);
+        if (role.equals("customer")) {
+            userAccount.setPassword(passwordEncoder.encode(userAccount.getPassword()));
+            userAccount.setUserRole("ROLE_CUSTOMER");
+            CustomerProfile customerProfile = new CustomerProfile();
+            customerProfile.setCustomerProfileName(userAccount.getFirstName());
+            customerProfile.setDeliveryAddress(userAccount.getAddress());
+            customerProfile.setPostalCode(userAccount.getPostalCode());
+            customerProfile.setEmail(userAccount.getEmail());
+            userAccount.setCustomerProfile(customerProfile);
+            customerProfileRepository.save(customerProfile);
+            userAccountRepository.saveAndFlush(userAccount);
+        }
     }
 
     public Optional<UserAccount> findUserAccountById(Long id) {
@@ -111,9 +103,11 @@ public class UserAccountService {
     /* Update username */
     @Transactional
     public boolean updateUsername(String username) throws Exception {
+        if (username.length() < 3 || username.isBlank()) {
+            throw new IllegalArgumentException("Tunnus on liian lyhyt!");
+        }
         Optional<UserAccount> account = securityContextService.getAuthenticatedUserAccount();
-        boolean usernameExists = usernameExists(username);
-        if (usernameExists) {
+        if (usernameExists(username)) {
             throw new Exception("Tämä käyttäjätunnus on jo olemassa!");
 
         }

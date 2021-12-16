@@ -41,7 +41,7 @@ public class CustomerController {
             return "customer";
         }
         try {
-            userAccountService.createCustomerAccount(customerAccount);
+            userAccountService.createUserAccount(customerAccount, "customer");
         } catch (Exception e) {
             model.addAttribute("usernameError", e.getMessage());
             return "customer";

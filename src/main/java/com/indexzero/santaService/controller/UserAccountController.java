@@ -33,15 +33,6 @@ public class UserAccountController {
     @Autowired
     private SecurityContextService securityContextService;
 
-    
-
-    /*Get santas Include only what needed, santa roles */
-    /* @ResponseBody
-    @RequestMapping(value = "santa-users", method = RequestMethod.GET, produces = "application/json")
-    public List<UserAccount> getNewSantas() {
-        return userAccountService.getNewSantas();
-    } */
-
     /* Update basic account info: */
     @PostMapping("/update/account-basic")
     public String updateUserAccount(
@@ -100,33 +91,34 @@ public class UserAccountController {
         return redirectService.redirectByUserRole();
 
     }
+
     /* Update password */
     @PostMapping("/update/account-password")
     public String updatePassword(
-        @RequestParam String newPassword, 
-        @RequestParam String oldPassword,
-        HttpServletRequest request,
-        RedirectAttributes redirectAttributes) {
+            @RequestParam String newPassword,
+            @RequestParam String oldPassword,
+            HttpServletRequest request,
+            RedirectAttributes redirectAttributes) {
 
         boolean success = false;
         if (securityContextService.accountExistsAndPasswordMatches(oldPassword)) {
             String errorMessage = "";
             try {
                 success = userAccountService.changePassword(oldPassword, newPassword);
-            UserAccount userAccount = securityContextService.getAuthenticatedUserAccount().get();
-            securityContextService.refreshAuth(
-                userAccount.getUsername(), 
-                newPassword, 
-                request);
+                UserAccount userAccount = securityContextService.getAuthenticatedUserAccount().get();
+                securityContextService.refreshAuth(
+                        userAccount.getUsername(),
+                        newPassword,
+                        request);
             } catch (Exception e) {
                 errorMessage = e.getMessage();
             }
-            
+
             return redirectService.redirectOnSuccess(success, redirectAttributes, "Salasana vaihdettu", errorMessage);
         }
         redirectAttributes.addFlashAttribute("basicInfoNotUpdated", "Väärä salasana!");
         return redirectService.redirectByUserRole();
-        
+
     }
 
     /* Delete useraccount */

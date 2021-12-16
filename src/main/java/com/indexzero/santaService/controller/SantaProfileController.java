@@ -9,7 +9,9 @@ import com.indexzero.santaService.model.OrderStatus;
 import com.indexzero.santaService.model.SantaProfile;
 import com.indexzero.santaService.model.UserAccount;
 import com.indexzero.santaService.services.OrderService;
+import com.indexzero.santaService.services.RedirectService;
 import com.indexzero.santaService.services.SantaProfileService;
+import com.indexzero.santaService.services.SecurityContextService;
 import com.indexzero.santaService.services.UserAccountService;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-//@RequestMapping("/santa")
 @Controller
 public class SantaProfileController {
 
@@ -41,13 +42,17 @@ public class SantaProfileController {
     @Autowired
     private OrderService orderService;
 
-    /* Show actual profile page with contextual content per user: */
-    // @Secured("ROLE_SANTA")
+    @Autowired
+    private SecurityContextService securityContextService;
+
+    @Autowired
+    private RedirectService redirectService;
+
+    /* Get basic info */
     @GetMapping("/santa-profile")
     public String santaProfileView(Model model) {
-        Authentication auth = getAuthenticatedUser();
-        if (auth.isAuthenticated()) {
-            Optional<UserAccount> user = userAccountService.findUserAccountByUsername(auth.getName());
+        if (securityContextService.getAuthenticatedUser().isAuthenticated()) {
+            Optional<UserAccount> user = securityContextService.getAuthenticatedUserAccount();
             if (user.isPresent()) {
                 model.addAttribute("basicInfo", user.get());
                 model.addAttribute("profileInfo", user.get().getSantaProfile());
@@ -65,6 +70,7 @@ public class SantaProfileController {
         return "redirect:/login-page";
 
     }
+
     /* Get profile image */
     @ResponseBody
     @GetMapping("/santa/image/{id}")
@@ -78,74 +84,48 @@ public class SantaProfileController {
     public List<SantaProfile> getAllAvailableSantas() {
         return santaProfileService.getAvailableSantas();
     }
+
     /* get orders */
     @ResponseBody
     @GetMapping("/santa/orders")
     public List<Order> getSantaOrders() {
         return orderService.getOrdersBySantaprofile();
     }
+
     /* Update orders */
     @ResponseBody
     @PutMapping("/santa/orders/update/{id}/{status}")
     public Order updateOrderStatus(@PathVariable Long id, @PathVariable OrderStatus status) {
-        System.out.println();
-        System.out.println(status);
-        System.out.println();
         return orderService.updateStatus(id, status);
     }
 
     /* update santa profile */
     @PostMapping("/update/santa-account")
     public String updateSantaProfile(
-            @RequestParam("image") MultipartFile file,
+            @RequestParam("image") MultipartFile image,
             @RequestParam String profilename,
             @RequestParam String info,
             @RequestParam int price,
-            @RequestParam int available,
+            @RequestParam boolean available,
             @RequestParam String email,
-            RedirectAttributes redirectAttributes) throws IOException{
-        /* get useraccount */
-        Optional<UserAccount> userAccount = userAccountService
-                .findUserAccountByUsername(getAuthenticatedUser().getName());
-        /* get accounts santaprofile */
-        SantaProfile existingSantaProfile = userAccount.get().getSantaProfile();
+            RedirectAttributes redirectAttributes) throws IOException {
+        
         /* Updated info */
         SantaProfile updatedSantaProfile = new SantaProfile();
-        if (file.getContentType().equals("image/png") || file.getContentType().equals("image/jpeg")) {
-            updatedSantaProfile.setProfileImage(file.getBytes());
-        }
         updatedSantaProfile.setSantaProfileName(profilename);
         updatedSantaProfile.setInfo(info);
         updatedSantaProfile.setPrice(price);
         updatedSantaProfile.setContactEmail(email);
-        if (available == 0) {
-            updatedSantaProfile.setAvailable(false);
-        } else if (available == 1) {
-            updatedSantaProfile.setAvailable(true);
+        updatedSantaProfile.setAvailable(available);
+        boolean success = false;
+        String errorMessage = "";
+        try {
+            success = santaProfileService.updateSantaProfileInfo(updatedSantaProfile, image);
+        } catch (Exception e) {
+            errorMessage = e.getMessage();
         }
 
-        santaProfileService.updateSantaProfileInfo(
-                userAccount.get(), existingSantaProfile, updatedSantaProfile);
-
-        redirectAttributes.addFlashAttribute("basicInfoUpdated", "Päivitetty");
-        //redirectAttributes.addFlashAttribute("basicInfoNotUpdated", "Ei päivitetty");
-        return redirectByUserRole();
-    }
-
-    /*  */
-    private Authentication getAuthenticatedUser() {
-        return SecurityContextHolder.getContext().getAuthentication();
-
-    }
-    private String redirectByUserRole() {
-        Optional<UserAccount> userAccount = userAccountService
-                .findUserAccountByUsername(getAuthenticatedUser().getName());
-        if (userAccount.isPresent()) {
-            String userRole = userAccount.get().getUserRole();
-            return userRole.equals("ROLE_SANTA") ? "redirect:/santa-profile"
-                    : userRole.equals("ROLE_CUSTOMER") ? "redirect:/customer-profile" : "redirect:/";
-        }
-        return "redirect:/custom-logout";
+        return redirectService.redirectOnSuccess(success, redirectAttributes, "Päivitetty", errorMessage);
     }
 
 }

@@ -35,7 +35,7 @@ public class CustomerProfileController {
     @Autowired
     private OrderService orderService;
 
-    // @Secured("ROLE_CUSTOMER")
+
     @GetMapping("/customer-profile")
     public String customerProfileView(Model model) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();

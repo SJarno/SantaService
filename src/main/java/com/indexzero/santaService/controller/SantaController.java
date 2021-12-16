@@ -42,8 +42,7 @@ public class SantaController {
             return "santa-claus";
         }
         try {
-            /* Check if username in use */
-            userAccountService.createSantaAccount(santaAccount);
+            userAccountService.createUserAccount(santaAccount, "santa");
             
         } catch (Exception e) {
             model.addAttribute("usernameError", e.getMessage());

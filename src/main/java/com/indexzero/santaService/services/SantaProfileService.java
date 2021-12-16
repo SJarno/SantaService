@@ -1,19 +1,17 @@
 package com.indexzero.santaService.services;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import javax.transaction.Transactional;
 
 import com.indexzero.santaService.model.SantaProfile;
-import com.indexzero.santaService.model.UserAccount;
 import com.indexzero.santaService.repositories.SantaProfileRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class SantaProfileService {
@@ -22,8 +20,7 @@ public class SantaProfileService {
     private SantaProfileRepository santaProfileRepository;
 
     @Autowired
-    private UserAccountService userAccountService;
-
+    private SecurityContextService securityContextService;
 
     @Transactional
     public void saveSantaProfile(SantaProfile santaProfile) {
@@ -41,74 +38,55 @@ public class SantaProfileService {
     /* Get available santas: */
     public List<SantaProfile> getAvailableSantas() {
         return santaProfileRepository.customFindAllAvailableSantas();
-        /* return convertDataFromList(santaProfileRepository.customFindAllAvailableSantas()); */
-        /* UserAccount userAccount = userAccountService.findUserAccountByUsername(getAuthenticatedUser().getName()).get();
-        Long customerId = userAccount.getCustomerProfile().getId();
-        return santaProfileRepository.customFindAllAvailableSantasWhereCustomerNotApplied(customerId); */
+
     }
 
     /* Availabel santas by postalcode */
     public List<SantaProfile> getAvailableSantasByPostalCode(String postalCode) {
-        return convertDataFromList(santaProfileRepository.customFindAllAvailableSantasByPostalCode(postalCode));
+        return santaProfileRepository.customFindAllAvailableSantasByPostalCode(postalCode);
     }
 
-    /* Get profile image by useraccount id*/
+    /* Get profile image by useraccount id */
     public byte[] getSantaprofileImage(Long id) {
-        /* UserAccount userAccount = userAccountService.findUserAccountById(id).get();
-        return userAccount.getSantaProfile().getProfileImage(); */
         return santaProfileRepository.findById(id).get().getProfileImage();
     }
 
     /* Update profile */
     @Transactional
-    public void updateSantaProfileInfo(
-            UserAccount userAccount,
-            SantaProfile existingSantaProfile,
-            SantaProfile updatedSantaProfile) {
+    public boolean updateSantaProfileInfo(
+            SantaProfile updatedSantaProfile,
+            MultipartFile image) throws IOException {
 
-        /* Santaprofile should not be empty: */
-        
-        if (!updatedSantaProfile.getSantaProfileName().isBlank()) {
-            existingSantaProfile.setSantaProfileName(updatedSantaProfile.getSantaProfileName());
+        SantaProfile existingSantaProfile = securityContextService.getAuthenticatedUserAccount().get()
+                .getSantaProfile();
+        /* Santaprofilename should not be empty: */
+        if (updatedSantaProfile.getSantaProfileName().isBlank()) {
+            throw new IllegalArgumentException("Profiilinimi liian lyhyt");
+
+        }
+        if (image.getSize() > 50000) {
+            throw new IOException("Kuva on liian iso. Koko:"+image.getSize());
         }
         /* add new image only if exists */
-        if (updatedSantaProfile.getProfileImage() != null) {
-            existingSantaProfile.setProfileImage(updatedSantaProfile.getProfileImage());
+        if (image.getBytes() != null && (image.getContentType().equals("image/png")
+                || image.getContentType().equals("image/jpeg"))) {
+            existingSantaProfile.setProfileImage(image.getBytes());
+
         }
+
+        existingSantaProfile.setSantaProfileName(updatedSantaProfile.getSantaProfileName());
         existingSantaProfile.setInfo(updatedSantaProfile.getInfo());
         existingSantaProfile.setPrice(updatedSantaProfile.getPrice());
         existingSantaProfile.setAvailable(updatedSantaProfile.isAvailable());
         existingSantaProfile.setContactEmail(updatedSantaProfile.getContactEmail());
+
+        return true;
 
     }
 
     /* Delete Santaprofile */
     public void deleteSantaprofile(Long id) {
         santaProfileRepository.deleteById(id);
-    }
-
-    /* converts data only needed info */
-    private List<SantaProfile> convertDataFromList(List<SantaProfile> list) {
-        return list.stream()
-                .map(santa -> {
-                    SantaProfile santaProfile = new SantaProfile();
-                    santaProfile.setSantaProfileName(santa.getSantaProfileName());
-                    santaProfile.setProfileImage(santa.getProfileImage());
-                    santaProfile.setInfo(santa.getInfo());
-                    santaProfile.setPrice(santa.getPrice());
-                    santaProfile.setAvailable(santa.isAvailable());
-                    return santaProfile;
-                }).collect(Collectors.toList());
-    }
-    /* filters available santas: */
-    private List<SantaProfile> convertDataByAvailable(List<SantaProfile> list) {
-        return list.stream()
-                .filter(santa -> santa.isAvailable())
-                .collect(Collectors.toList());
-    }
-    private Authentication getAuthenticatedUser() {
-        return SecurityContextHolder.getContext().getAuthentication();
-
     }
 
 }

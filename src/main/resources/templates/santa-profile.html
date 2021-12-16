@@ -48,16 +48,19 @@
 					<h3>Puhelinnumero: <span th:text="${basicInfo.phoneNumber}"></span></h3>
 					<h3>Postinumero: <span th:text="${basicInfo.postalCode}"></span></h3>
 				</div>
-
+				<!-- Updating account info -->
 				<div class="basicInfo">
 					<form th:replace="fragments/forms :: update-basicInfo-form"></form>
 				</div>
+				<!-- Update username -->
 				<div class="basicInfo">
 					<form th:replace="fragments/forms :: updateUsername-form"></form>
 				</div>
+				<!-- Update password -->
 				<div class="basicInfo">
 					<form th:replace="fragments/forms :: updatePassword-form"></form>
 				</div>
+				<!-- Delete account -->
 				<div class="basicInfo">
 					<form th:replace="fragments/forms :: deleteUser-form(title='Poista Joulupukki-tili')"></form>
 				</div>
@@ -70,7 +73,10 @@
 					<h3>Lisätiedot: <p th:text="${profileInfo.info}"></p>
 					</h3>
 					<h3>Hinta: <span th:text="${profileInfo.price}"></span></h3>
-					<h3>Käytettävissä: <span th:text="${profileInfo.Available}"></span></h3>
+					<h3>Käytettävissä:
+						<span th:if="${profileInfo.Available}">Kyllä</span>
+						<span th:unless="${profileInfo.Available}">Ei</span>
+					</h3>
 					<h3>Sähköposti: <span th:text="${profileInfo.contactEmail}"></span></h3>
 				</div>
 				<div class="santa-profile-info">

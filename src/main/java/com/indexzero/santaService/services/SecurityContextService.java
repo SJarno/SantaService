@@ -37,7 +37,7 @@ public class SecurityContextService {
         throw new UsernameNotFoundException("Error in authentication!");
     }
 
-    private Authentication getAuthenticatedUser() {
+    public Authentication getAuthenticatedUser() {
         return SecurityContextHolder.getContext().getAuthentication();
     }
     private boolean checkIfAuthenticated(String inputPassword, String existingPassword) {
