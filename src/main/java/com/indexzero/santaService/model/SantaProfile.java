@@ -37,6 +37,8 @@ public class SantaProfile extends AbstractPersistable<Long> {
     @Column(name = "contact_email")
     @Email
     private String contactEmail;
+
+    private String city;
     
     //@JsonManagedReference
     @JsonIgnore

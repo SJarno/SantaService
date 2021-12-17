@@ -41,9 +41,9 @@ public class SantaProfileService {
 
     }
 
-    /* Availabel santas by postalcode */
-    public List<SantaProfile> getAvailableSantasByPostalCode(String postalCode) {
-        return santaProfileRepository.customFindAllAvailableSantasByPostalCode(postalCode);
+    /* Get available santas by city */
+    public List<SantaProfile> getAvailableSantasByCity(String city) {
+        return santaProfileRepository.customFindAllAvailableSantasByCity(city+"%");
     }
 
     /* Get profile image by useraccount id */
@@ -62,8 +62,11 @@ public class SantaProfileService {
         /* Santaprofilename should not be empty: */
         if (updatedSantaProfile.getSantaProfileName().isBlank()) {
             throw new IllegalArgumentException("Profiilinimi liian lyhyt");
-
         }
+        if (updatedSantaProfile.getCity().isBlank()) {
+            throw new IllegalArgumentException("Toimipaikka liian lyhyt");
+        }
+
         if (image.getSize() > 50000) {
             throw new IOException("Kuva on liian iso. Koko:"+image.getSize());
         }
@@ -77,6 +80,7 @@ public class SantaProfileService {
         existingSantaProfile.setSantaProfileName(updatedSantaProfile.getSantaProfileName());
         existingSantaProfile.setInfo(updatedSantaProfile.getInfo());
         existingSantaProfile.setPrice(updatedSantaProfile.getPrice());
+        existingSantaProfile.setCity(updatedSantaProfile.getCity());
         existingSantaProfile.setAvailable(updatedSantaProfile.isAvailable());
         existingSantaProfile.setContactEmail(updatedSantaProfile.getContactEmail());
 

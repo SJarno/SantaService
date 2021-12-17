@@ -13,6 +13,19 @@ async function loadSantas(path) {
     console.log(santas);
     addToElement(santas);
 };
+/* Search santas by city */
+async function searchByCity() {
+    let city = document.getElementById("search-input").value;
+    if (city.length === 0) {
+        loadSantas("santas/available");
+    } else {
+        let response = await fetch(url+"santas/search/"+city, {
+            "Accept": "application/json"
+        });
+        const santas = await response.json();
+        addToElement(santas);
+    }
+}
 
 async function loadImageById(id) {
     console.log(url+"santa/image/"+id);
@@ -48,6 +61,8 @@ const addToElement = data => {
         
         /* imageElement.src = "/santa/image/"+santa.id;
         figureElement.appendChild(imageElement); */
+        const cityPara = document.createElement("p");
+        cityPara.innerText = "Toimipaikka: "+santa.city;
 
         const orderButton = document.createElement("button");
         orderButton.textContent = "Lähetä tarjous";
@@ -60,6 +75,7 @@ const addToElement = data => {
         divElement.appendChild(headerElement);
         divElement.appendChild(infoPara);
         divElement.appendChild(pricePara);
+        divElement.appendChild(cityPara);
         divElement.appendChild(orderButton);
 
         document.getElementById("santa-cards").appendChild(divElement);

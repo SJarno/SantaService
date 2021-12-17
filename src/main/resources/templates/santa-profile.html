@@ -73,6 +73,7 @@
 					<h3>Lisätiedot: <p th:text="${profileInfo.info}"></p>
 					</h3>
 					<h3>Hinta: <span th:text="${profileInfo.price}"></span></h3>
+					<h3>Toimipaikka/kaupunki: <span th:text="${profileInfo.city}"></span></h3>
 					<h3>Käytettävissä:
 						<span th:if="${profileInfo.Available}">Kyllä</span>
 						<span th:unless="${profileInfo.Available}">Ei</span>

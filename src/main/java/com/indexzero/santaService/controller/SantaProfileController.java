@@ -79,6 +79,11 @@ public class SantaProfileController {
     public List<SantaProfile> getAllAvailableSantas() {
         return santaProfileService.getAvailableSantas();
     }
+    @ResponseBody
+    @GetMapping("/santas/search/{city}")
+    public List<SantaProfile> getAvailableSantasByCity(@PathVariable String city) {
+        return santaProfileService.getAvailableSantasByCity(city);
+    }
 
     /* get orders */
     @ResponseBody
@@ -101,6 +106,7 @@ public class SantaProfileController {
             @RequestParam String profilename,
             @RequestParam String info,
             @RequestParam int price,
+            @RequestParam String city,
             @RequestParam boolean available,
             @RequestParam String email,
             RedirectAttributes redirectAttributes) throws IOException {
@@ -110,6 +116,7 @@ public class SantaProfileController {
         updatedSantaProfile.setSantaProfileName(profilename);
         updatedSantaProfile.setInfo(info);
         updatedSantaProfile.setPrice(price);
+        updatedSantaProfile.setCity(city);
         updatedSantaProfile.setContactEmail(email);
         updatedSantaProfile.setAvailable(available);
         boolean success = false;

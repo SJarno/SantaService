@@ -51,6 +51,9 @@ async function addOrdersToElement(data) {
         const paraSantaEmail = document.createElement("p");
         paraSantaEmail.innerText = order.santaProfile.contactEmail;
 
+        const santaCity = document.createElement("p");
+        santaCity.innerText = order.santaProfile.city;
+
         console.log(order.santaProfile);
 
         /* Customer info: */
@@ -82,6 +85,7 @@ async function addOrdersToElement(data) {
         divElement.appendChild(paraSantaname)
         divElement.appendChild(paraStatus);
         divElement.appendChild(paraSantaEmail);
+        divElement.appendChild(santaCity);
         divElement.appendChild(document.createElement("hr"));
         divElement.appendChild(orderInfoHeading);
         divElement.appendChild(customerProfileNamePara);

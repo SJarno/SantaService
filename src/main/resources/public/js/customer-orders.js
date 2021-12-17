@@ -61,6 +61,9 @@ async function addOrdersToPage(data) {
         const paraSantaEmail = document.createElement("p");
         paraSantaEmail.innerText = order.santaProfile.contactEmail;
 
+        const santaCity = document.createElement("p");
+        santaCity.innerText = order.santaProfile.city;
+
         /* Customer info: */
         const orderInfoHeading = document.createElement("h3");
         orderInfoHeading.innerText = "Tilaajan tiedot";
@@ -91,6 +94,7 @@ async function addOrdersToPage(data) {
         divElement.appendChild(paraSantaname)
         divElement.appendChild(paraStatus);
         divElement.appendChild(paraSantaEmail);
+        divElement.appendChild(santaCity);
         divElement.appendChild(document.createElement("hr"));
         divElement.appendChild(orderInfoHeading);
         divElement.appendChild(customerProfileNamePara);

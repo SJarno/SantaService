@@ -25,3 +25,8 @@
     text-align: center;
     width: 100%;
 }
+
+#search-input {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
