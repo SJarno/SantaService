@@ -43,7 +43,7 @@ public class SantaProfileService {
 
     /* Get available santas by city */
     public List<SantaProfile> getAvailableSantasByCity(String city) {
-        return santaProfileRepository.customFindAllAvailableSantasByCity(city+"%");
+        return santaProfileRepository.customFindAllAvailableSantasByCity("%"+city+"%");
     }
 
     /* Get profile image by useraccount id */
