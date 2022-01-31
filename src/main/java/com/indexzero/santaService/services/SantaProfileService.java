@@ -67,7 +67,7 @@ public class SantaProfileService {
             throw new IllegalArgumentException("Toimipaikka liian lyhyt");
         }
 
-        if (image.getSize() > 500000) {
+        if (image.getSize() > 750000) {
             // more here:
             // https://stackoverflow.com/questions/27175729/get-correct-file-size-from-spring-multipartfile
 
