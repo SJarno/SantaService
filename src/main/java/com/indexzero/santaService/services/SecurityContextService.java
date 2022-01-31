@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.indexzero.santaService.model.UserAccount;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -18,14 +19,16 @@ import org.springframework.stereotype.Service;
 import lombok.AllArgsConstructor;
 
 @Service
-@AllArgsConstructor
+//@AllArgsConstructor
 public class SecurityContextService {
 
+    @Autowired
     private UserAccountService userAccountService;
 
+    @Autowired
     private PasswordEncoder passwordEncoder;
 
-
+    @Autowired
     private AuthenticationManager authManager;
 
     public Optional<UserAccount> getAuthenticatedUserAccount() {
