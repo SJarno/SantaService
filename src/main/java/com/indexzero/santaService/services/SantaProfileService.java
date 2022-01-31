@@ -66,7 +66,7 @@ public class SantaProfileService {
         if (updatedSantaProfile.getCity().isBlank()) {
             throw new IllegalArgumentException("Toimipaikka liian lyhyt");
         }
-
+        //more here: https://stackoverflow.com/questions/27175729/get-correct-file-size-from-spring-multipartfile
         if (image.getSize() > (50000 * 0.00000095367432)) {
             throw new IOException("Kuva on liian iso. Koko:"+image.getSize());
         }
