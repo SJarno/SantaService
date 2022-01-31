@@ -67,7 +67,7 @@ public class SantaProfileService {
             throw new IllegalArgumentException("Toimipaikka liian lyhyt");
         }
 
-        if (image.getSize() > 50000) {
+        if (image.getSize() > (50000 * 0.00000095367432)) {
             throw new IOException("Kuva on liian iso. Koko:"+image.getSize());
         }
         /* add new image only if exists */
