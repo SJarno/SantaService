@@ -16,6 +16,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.OnDelete;
 import org.hibernate.annotations.OnDeleteAction;
+import org.hibernate.annotations.Type;
 import org.springframework.data.jpa.domain.AbstractPersistable;
 
 import lombok.AllArgsConstructor;
@@ -50,7 +51,8 @@ public class SantaProfile extends AbstractPersistable<Long> {
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Order> orders;
 
-    @Lob
+    //@Lob
+    @Type(type = "org.hibernate.type.BinaryType")
     @Basic(fetch = FetchType.EAGER)
     @Column(name = "profile_image")
     private byte[] profileImage;
