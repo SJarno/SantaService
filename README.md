@@ -6,9 +6,13 @@ A service where user can register as santa offering santa services, or as a cust
 
 ## Dependencies
 Spring Boot
+
 Java 11
+
 Thymeleaf
+
 Postgres
+
 H2 for testing
 
 ## Deployment
