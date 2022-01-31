@@ -4,7 +4,7 @@
         <li><a th:href="@{/}">Etusivulle</a></li>
         <li><a th:href="@{/customer}">Tilaajille</a></li>
         <li><a th:href="@{/santa}">Joulupukeille</a></li>
-        <li><a th:href="@{/login-page}">Kirjaudu palveluun</a></li>
+        <li sec:authorize="isAnonymous()"><a th:href="@{/login-page}">Kirjaudu palveluun</a></li>
     </ul>
     <ul sec:authorize="isAuthenticated()" >
         <li sec:authorize="hasRole('SANTA')" class="secured-info">Profiili:
