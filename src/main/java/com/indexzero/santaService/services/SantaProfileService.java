@@ -43,7 +43,7 @@ public class SantaProfileService {
 
     /* Get available santas by city */
     public List<SantaProfile> getAvailableSantasByCity(String city) {
-        return santaProfileRepository.customFindAllAvailableSantasByCity("%"+city+"%");
+        return santaProfileRepository.customFindAllAvailableSantasByCity("%" + city + "%");
     }
 
     /* Get profile image by useraccount id */
@@ -68,7 +68,10 @@ public class SantaProfileService {
         }
 
         if (image.getSize() > 500000) {
-            throw new IOException("Kuva on liian iso. Koko:"+image.getSize());
+            // more here:
+            // https://stackoverflow.com/questions/27175729/get-correct-file-size-from-spring-multipartfile
+
+            throw new IOException("Kuva on liian iso. Koko:" + image.getSize());
         }
         /* add new image only if exists */
         if (image.getBytes() != null && (image.getContentType().equals("image/png")
