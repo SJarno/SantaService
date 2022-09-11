@@ -16,4 +16,4 @@ Postgres
 H2 for testing
 
 ## Deployment
-In production here: https://santa-service-hbc.herokuapp.com/index
+Note: not in Heroku anymore, as free dynos will not be available for database soon.
